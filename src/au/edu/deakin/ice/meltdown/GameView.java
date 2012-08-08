@@ -4,13 +4,10 @@ import java.util.Queue;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -70,10 +67,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		}
 	}
 	
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 		Log.d(mName, "Touch at: (" + event.getRawX() + ", " + event.getRawY() + ")");
 		}
 		return super.onTouchEvent(event);
 	}
+	
+	@Override
+	protected void onDraw(Canvas canvas) {
+		
+	}
+
 }

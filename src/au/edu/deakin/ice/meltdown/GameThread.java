@@ -8,12 +8,12 @@ public class GameThread extends Thread {
 	private static final String mName = GameThread.class.getSimpleName();
 	private boolean running;
 	private SurfaceHolder mSurfaceHolder;
-	private GameView mView;
+	private GameView mGame;
 	
 	public GameThread(SurfaceHolder s, GameView v){
 		super();
 		mSurfaceHolder = s;
-		mView = v;
+		mGame = v;
 	}
 	 public void setRunning(boolean running) {
 		 this.running = running;
