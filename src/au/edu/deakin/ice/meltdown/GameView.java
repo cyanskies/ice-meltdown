@@ -1,5 +1,6 @@
 package au.edu.deakin.ice.meltdown;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 import android.content.Context;
@@ -18,7 +19,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private static final String mName = GameView.class.getSimpleName();
 	
 	private final Paint mPaint = new Paint();
-	private Queue<DrawData> mDrawQueue;
+	private Queue<DrawData> mDrawQueue = new LinkedList<DrawData>();
 	private GameThread mThread;
 	
 	public GameView(Context context) {

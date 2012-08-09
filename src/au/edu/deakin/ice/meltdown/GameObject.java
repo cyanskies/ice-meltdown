@@ -19,7 +19,7 @@ public class GameObject{
 		return mB;
 	}
 
-	private Matrix mM;
+	private Matrix mM = new Matrix();
 
 	public Matrix getMatrix() {
 		return mM;
@@ -27,6 +27,8 @@ public class GameObject{
 
 
 	public GameObject(int image){
+		if(mR == null)
+			throw new NullPointerException();
 		mB = BitmapFactory.decodeResource(mR, image);
 		mM.reset();
 		// TODO create drawable using constructor parameters
