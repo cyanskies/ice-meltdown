@@ -7,10 +7,12 @@ public class IceGameView extends GameView {
 
 	private static final String mName = IceGameView.class.getSimpleName();
 	private final GameObject test = new GameObject(R.drawable.ic_launcher);
+	private final GameObject mGround = new GameObject(R.drawable.ground);
 	
 	public IceGameView(Context context) {
 		super(context);
 		test.move(50, 50);
+		mGround.move(100, 100);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -25,6 +27,7 @@ public class IceGameView extends GameView {
 		clear(canvas);
 		
 		draw(test);
+		draw(mGround);
 		
 		display(canvas);
 	}
