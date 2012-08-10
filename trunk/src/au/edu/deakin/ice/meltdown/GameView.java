@@ -27,12 +27,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		getHolder().addCallback(this);
 		setFocusable(true);
 		mThread = new GameThread(getHolder(), this);
-		
+				
 		GameObject.setResources(getResources());
 		// TODO Auto-generated constructor stub
 	}
 	public void clear(Canvas canvas){
-		canvas.drawColor(Color.CYAN);
+		canvas.drawColor(Color.BLACK);
 	}
 	
 	public void draw(DrawData d){
