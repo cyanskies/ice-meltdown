@@ -8,6 +8,7 @@ public class IceGameView extends GameView {
 	private static final String mName = IceGameView.class.getSimpleName();
 	private final GameObject test = new GameObject(R.drawable.ic_launcher);
 	private final GameObject mGround = new GameObject(R.drawable.ground);
+        private final GameObject mSnowman = new GameObject(R.drawable.ground);
 	
 	public IceGameView(Context context) {
 		super(context);
