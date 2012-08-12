@@ -4,6 +4,8 @@ public class Rect {
 	public Vector2 position = new Vector2(), size = new Vector2();
 	
 	public Rect() {
+		position = new Vector2(0.f, 0.f);
+		size = new Vector2(0.f, 0.f);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -12,7 +14,7 @@ public class Rect {
 		this.size = size;
 	}
 	
-	public Rect(int posx, int posy, int width, int height) {
+	public Rect(float posx, float posy, float width, float height) {
 		position = new Vector2(posx, posy);
 		size = new Vector2(width, height);
 	}
@@ -22,10 +24,10 @@ public class Rect {
 	}
 	
 	public boolean intersects(Rect r, Rect overlap){
-	    int Left;
-	    int Top;
-	    int Right;
-	    int Bottom;
+		float Left;
+		float Top;
+		float Right;
+		float Bottom;
 	    
 	    if(position.x > r.position.x)
 	    	Left = position.x;
@@ -54,7 +56,7 @@ public class Rect {
 	    }
 	    else
 	    {
-	    	overlap = new Rect(0, 0, 0, 0);
+	    	overlap = new Rect();
 	        return false;
 	    }
 	}
