@@ -2,7 +2,7 @@ package au.edu.deakin.ice.meltdown;
 
 public class Vector2 {
 
-	public int x = 0, y = 0;
+	public float x = 0.f, y = 0.f;
 	
 	public Vector2() {
 		// TODO Auto-generated constructor stub
@@ -13,7 +13,7 @@ public class Vector2 {
 		y = other.y;
 	}
 	
-	public Vector2(int x, int y) {
+	public Vector2(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}

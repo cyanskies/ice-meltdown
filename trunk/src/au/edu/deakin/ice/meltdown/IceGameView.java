@@ -13,14 +13,15 @@ public class IceGameView extends GameView {
 	public IceGameView(Context context) {
 		super(context);
 		Log.d(mName, "Creating gameview");
-		mSnowman.move(50, 550);
-		mGround.move(0, 600);
+		mGround.setPosition(-5.f, 650.f);
+		mSnowman.setPosition(50.f, mGround.getBounds().position.y - mSnowman.getBounds().size.y);
 		// TODO Auto-generated constructor stub
 	}
 	
 	//@Override
 	public void Update(){
 		Log.d(mName, "Starting Update step");
+		mSnowman.getBounds();
 	}
 	
 	//@Override
