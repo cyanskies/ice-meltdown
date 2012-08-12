@@ -55,19 +55,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		}
 	}
 	
-	@Override
+	//@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	@Override
+	//@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		mThread.setRunning(true);
 		mThread.start();
 	}
-	@Override
+	
+	//@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
 		while(retry) {
@@ -81,7 +82,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		}
 	}
 	
-	@Override
+	//@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 		Log.d(mName, "Touch at: (" + event.getRawX() + ", " + event.getRawY() + ")");

@@ -18,12 +18,12 @@ public class IceGameView extends GameView {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
+	//@Override
 	public void Update(){
 		Log.d(mName, "Starting Update step");
 	}
 	
-	@Override
+	//@Override
 	public void Draw(Canvas canvas){
 		Log.d(mName, "Starting Draw step");
 		// clear, go through each entity and call draw, then call display
