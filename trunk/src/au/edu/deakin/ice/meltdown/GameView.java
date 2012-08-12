@@ -55,9 +55,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		}
 	}
 	
-	public void update(){
-	}
-	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {

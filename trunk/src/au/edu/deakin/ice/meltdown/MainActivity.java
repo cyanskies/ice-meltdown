@@ -1,7 +1,7 @@
 package au.edu.deakin.ice.meltdown;
 
 import android.os.Bundle;
-import android.view.Window;
+import android.util.Log;
 import android.app.Activity;
 
 public class MainActivity extends Activity{
@@ -10,6 +10,8 @@ public class MainActivity extends Activity{
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Log.d(mName, "Creating main activity");
         IceGameView mView = new IceGameView(getApplicationContext());
         setContentView(mView);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -18,10 +20,12 @@ public class MainActivity extends Activity{
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(mName, "Paused");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+    	Log.d(mName, "Saving Instance");
     	//save game data
     }
 }
