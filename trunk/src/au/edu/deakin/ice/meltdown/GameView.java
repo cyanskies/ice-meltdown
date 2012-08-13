@@ -21,6 +21,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private final Paint mPaint = new Paint();
 	private Queue<DrawData> mDrawQueue = new LinkedList<DrawData>();
 	private GameThread mThread;
+	protected Vector2 mScreenSize  = new Vector2();
 	
 	public GameView(Context context) {
 		super(context);
@@ -58,8 +59,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	//@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		// TODO Auto-generated method stub
-		
+		mScreenSize = new Vector2(width, height);
 	}
 	
 	//@Override
