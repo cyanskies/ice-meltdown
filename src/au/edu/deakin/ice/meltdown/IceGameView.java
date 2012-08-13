@@ -10,6 +10,8 @@ public class IceGameView extends GameView {
 	private final GameObject mSnowman = new GameObject(R.drawable.ic_launcher);
 	private final GameObject mGround = new GameObject(R.drawable.ground);
 	
+	private float mSnowmanMove = -5.f;
+	
 	public IceGameView(Context context) {
 		super(context);
 		Log.d(mName, "Creating gameview");
@@ -21,7 +23,11 @@ public class IceGameView extends GameView {
 	//@Override
 	public void Update(){
 		Log.d(mName, "Starting Update step");
-		mSnowman.getBounds();
+		Rect bounds = mSnowman.getBounds();
+		if(bounds.position.x <= 0 || bounds.position.x + bounds.size.x >= mScreenSize.x)
+			mSnowmanMove *= -1;
+		
+		mSnowman.move(mSnowmanMove, 0);
 	}
 	
 	//@Override
