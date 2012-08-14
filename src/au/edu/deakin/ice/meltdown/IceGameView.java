@@ -66,6 +66,11 @@ public class IceGameView extends GameView {
 	
 	//@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if(event.getAction() == MotionEvent.ACTION_DOWN){
+			if(mSnowman.IsIdle())
+				mSnowman.Jump(5);
+		}
+		
 		return super.onTouchEvent(event);
 	}
 	
