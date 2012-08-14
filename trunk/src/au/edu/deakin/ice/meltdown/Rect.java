@@ -23,7 +23,16 @@ public class Rect {
 		return (v.x >= position.x) && (v.x < position.x + size.x) && (v.y >= position.y) && (v.y < position.y + size.y);
 	}
 	
-	public boolean intersects(Rect r, Rect overlap){
+	public boolean intersects(Rect r){
+		Rect o = GetOverlapRect(r);
+		if(o == null) {
+			return false;
+		}
+		else
+			return true;
+	}
+	
+	public Rect GetOverlapRect(Rect r){
 		float Left;
 		float Top;
 		float Right;
@@ -40,24 +49,22 @@ public class Rect {
 	    	Top = r.position.y;
 	    
 	    if(position.x + size.x > r.position.x + r.size.x)
-	    	Right = position.x + size.x;
-	    else
 	    	Right = r.position.x + r.size.x;
+	    else
+	    	Right = position.x + size.x;
 	    
 	    if(position.y + size.y > r.position.y + r.size.y)
-	    	Bottom = position.y + size.y;
-	    else
 	    	Bottom = r.position.y + r.size.y;
+	    else
+	    	Bottom = position.y + size.y;
 
 	    if ((Left < Right) && (Top < Bottom))
 	    {
-	        overlap = new Rect(Left, Top, Right - Left, Bottom - Top);
-	        return true;
+	        return new Rect(Left, Top, Right - Left, Bottom - Top);
 	    }
 	    else
 	    {
-	    	overlap = new Rect();
-	        return false;
+	        return null;
 	    }
 	}
 
