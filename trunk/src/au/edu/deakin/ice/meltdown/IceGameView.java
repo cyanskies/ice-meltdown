@@ -3,6 +3,7 @@ package au.edu.deakin.ice.meltdown;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.MotionEvent;
 
 public class IceGameView extends GameView {
 
@@ -40,6 +41,14 @@ public class IceGameView extends GameView {
 		draw(mGround);
 		
 		display(canvas);
+	}
+	
+	//@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if(event.getAction() == MotionEvent.ACTION_DOWN){
+		Log.d(mName, "Touch at: (" + event.getX() + ", " + event.getY() + ")");
+		}
+		return super.onTouchEvent(event);
 	}
 	
 }
