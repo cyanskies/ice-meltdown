@@ -6,7 +6,6 @@ import java.util.Queue;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,7 +17,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 	private static final String mName = GameView.class.getSimpleName();
 	
-	private final Paint mPaint = new Paint();
 	private Queue<DrawData> mDrawQueue = new LinkedList<DrawData>();
 	private GameThread mThread;
 	protected Vector2 mScreenSize  = new Vector2();

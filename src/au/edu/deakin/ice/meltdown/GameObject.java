@@ -1,8 +1,5 @@
 package au.edu.deakin.ice.meltdown;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,17 +17,6 @@ public class GameObject{
 	
 	private Bitmap mB;
 	private Matrix mM = new Matrix();
-
-	public GameObject(Bitmap b){
-		if(b == null)
-		{
-			Log.d(mName, "Someone forgot to initialise bitmaps");
-			throw new NullPointerException();
-		}
-		
-	    mB = b;
-		mM.reset();
-	}
 	
 	public GameObject(int image){
 		if(mR == null)
@@ -38,20 +24,6 @@ public class GameObject{
 			Log.d(mName, "Someone forgot to initialise GameObject.Resources");
 			throw new NullPointerException();
 		}
-		
-		InputStream is = mR.openRawResource(image);
-	    mB = null;
-	    try {
-	    	mB = BitmapFactory.decodeStream(is);
-
-	    } finally {
-	        //Always clear and close
-	        try {
-	            is.close();
-	            is = null;
-	        } catch (IOException e) {
-	        }
-	    }
 		
 		mB = BitmapFactory.decodeResource(mR, image);
 		mM.reset();
