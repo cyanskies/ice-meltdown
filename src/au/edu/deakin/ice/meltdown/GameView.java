@@ -33,7 +33,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		// TODO Auto-generated constructor stub
 	}
 	public void clear(Canvas canvas){
-		canvas.drawColor(Color.BLACK);
+		canvas.drawColor(Color.CYAN);
 	}
 	
 	public void draw(DrawData d){
@@ -51,7 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public void display(Canvas canvas){
 		while(!mDrawQueue.isEmpty()){
 			DrawData d = mDrawQueue.peek();
-			canvas.drawBitmap(d.b, d.m, mPaint);
+			canvas.drawBitmap(d.b, d.m, null);
 			mDrawQueue.remove();
 		}
 	}
@@ -59,17 +59,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	//@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+		Log.d(mName, "Surface Cha-Cha-Changed!!!");
 		mScreenSize = new Vector2(width, height);
 	}
 	
 	//@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		Log.d(mName, "Surface Created!!!");
 		mThread.setRunning(true);
 		mThread.start();
 	}
 	
 	//@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.d(mName, "Surface Destroyed!!!");
 		boolean retry = true;
 		while(retry) {
 			try {
@@ -88,6 +91,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		Log.d(mName, "Touch at: (" + event.getX() + ", " + event.getY() + ")");
 		}
 		return super.onTouchEvent(event);
+	}
+	
+	public void Init() {
+		
 	}
 	
 	public void Update() {

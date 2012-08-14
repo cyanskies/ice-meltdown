@@ -32,6 +32,8 @@ public class GameThread extends Thread {
 		 long frameStart, frameDelta;
 		 int sleep;
 		 
+		 mGame.Init();
+		 
 		 while (running) {
 			 canvas = null;
 		     // try locking the canvas for exclusive pixel editing
