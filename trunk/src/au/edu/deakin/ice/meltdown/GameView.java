@@ -28,7 +28,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mThread = new GameThread(getHolder(), this);
 				
 		GameObject.setResources(getResources());
-		// TODO Auto-generated constructor stub
 	}
 	public void clear(Canvas canvas){
 		canvas.drawColor(Color.CYAN);
@@ -59,13 +58,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			int height) {
 		Log.d(mName, "Surface Cha-Cha-Changed!!!");
 		mScreenSize = new Vector2(width, height);
+		
+		mThread.setRunning(true);
+		if(!mThread.isAlive())
+			mThread.start();
 	}
 	
 	//@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		Log.d(mName, "Surface Created!!!");
-		mThread.setRunning(true);
-		mThread.start();
+		
 	}
 	
 	//@Override
