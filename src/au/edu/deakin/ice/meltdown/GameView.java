@@ -6,6 +6,7 @@ import java.util.Queue;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,7 +19,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private static final String mName = GameView.class.getSimpleName();
 	
 	private Queue<DrawData> mDrawQueue = new LinkedList<DrawData>();
+	private Queue<TextData> mTextQueue = new LinkedList<TextData>();
 	private GameThread mThread;
+	private final Paint mPaint = new Paint();
 	protected Vector2 mScreenSize  = new Vector2();
 	
 	public GameView(Context context) {
@@ -37,6 +40,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mDrawQueue.add(d);
 	}
 	
+	public void draw(TextData d){
+		mTextQueue.add(d);
+	}
+	
 	
 	public void draw(GameObject g){
 		DrawData d = new DrawData();
@@ -45,11 +52,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mDrawQueue.add(d);
 	}
 	
+	public void draw(TextObject t){
+		TextData d = new TextData();
+		d.text = t.getText();
+		d.colour = t.getColour();
+		Vector2 pos = t.getPosition();
+		d.x = pos.x;
+		d.y = pos.y;
+
+		mTextQueue.add(d);
+	}
+	
 	public void display(Canvas canvas){
 		while(!mDrawQueue.isEmpty()){
 			DrawData d = mDrawQueue.peek();
 			canvas.drawBitmap(d.b, d.m, null);
 			mDrawQueue.remove();
+		}
+		
+		while(!mTextQueue.isEmpty()){
+			TextData d = mTextQueue.peek();
+			mPaint.setColor(d.colour);
+			canvas.drawText(d.text, d.x, d.y , mPaint);
+			mTextQueue.remove();
 		}
 	}
 	
