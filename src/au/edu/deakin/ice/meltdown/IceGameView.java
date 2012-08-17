@@ -2,6 +2,7 @@ package au.edu.deakin.ice.meltdown;
 
 import java.util.LinkedList;
 
+import android.R.color;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
@@ -14,6 +15,7 @@ public class IceGameView extends GameView {
 	private static final String mName = IceGameView.class.getSimpleName();
 	private final Snowman mSnowman = new Snowman(R.drawable.ic_launcher);
 	private final GameObject mGround = new GameObject(R.drawable.ground);
+	private final TextObject mScore = new TextObject("Score!!", color.primary_text_light);
 	
 	private final LinkedList<GameObject> ObjectList = new LinkedList<GameObject>();
 	private ThreatGenerator mGen;
@@ -37,6 +39,7 @@ public class IceGameView extends GameView {
 		mHorizontal = mScreenSize.y - 50;
 		mGround.setPosition(-5.f, mHorizontal);
 		mSnowman.setPosition(50.f, 0);
+		mScore.setPosition(50.f,  50.f);
 		
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - (mSnowman.getBounds().size.y / 2));
 	}
@@ -90,6 +93,7 @@ public class IceGameView extends GameView {
 		
 		draw(mSnowman);
 		draw(mGround);
+		draw(mScore);
 		
 		for(GameObject o : ObjectList){
 			draw(o);
