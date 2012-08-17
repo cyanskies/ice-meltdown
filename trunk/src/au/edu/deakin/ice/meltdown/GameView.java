@@ -31,6 +31,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mThread = new GameThread(getHolder(), this);
 				
 		GameObject.setResources(getResources());
+		TextObject.setResources(getResources());
 	}
 	public void clear(Canvas canvas){
 		canvas.drawColor(Color.CYAN);
@@ -64,18 +65,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	public void display(Canvas canvas){
+		
+		//int c = mPaint.getColor();
+		
+		while(!mTextQueue.isEmpty()){
+		TextData d = mTextQueue.peek();
+		mPaint.setColor(d.colour);
+		canvas.drawText(d.text, d.x, d.y , mPaint);
+		mTextQueue.remove();
+		}
+		
+		//mPaint.setColor(c);
+		
 		while(!mDrawQueue.isEmpty()){
 			DrawData d = mDrawQueue.peek();
 			canvas.drawBitmap(d.b, d.m, null);
 			mDrawQueue.remove();
 		}
 		
-		while(!mTextQueue.isEmpty()){
-			TextData d = mTextQueue.peek();
-			mPaint.setColor(d.colour);
-			canvas.drawText(d.text, d.x, d.y , mPaint);
-			mTextQueue.remove();
-		}
+		
 	}
 	
 	//@Override
