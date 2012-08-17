@@ -39,6 +39,14 @@ public class GameObject{
 		d.m = mM;
 		v.draw(d);
 	}
+	
+	public boolean equals(GameObject o){
+		if(o.getBounds() == getBounds() && o.getBitmap() == mB){
+			return true;
+		}
+		
+		return false;
+	}
 
 
 	public Bitmap getBitmap() {
