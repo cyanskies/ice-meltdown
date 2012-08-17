@@ -1,6 +1,5 @@
 package au.edu.deakin.ice.meltdown.entities;
 
-import au.edu.deakin.ice.meltdown.GameObject;
 import au.edu.deakin.ice.meltdown.R;
 
 public class ThreatGenerator {
@@ -11,8 +10,8 @@ public class ThreatGenerator {
 		screenEdgeX = x; Ground = y;
 	}
 	
-	public GameObject Generate() {
-		GameObject out = new Stump(R.drawable.stump);
+	public Threat Generate() {
+		Threat out = new Threat(R.drawable.stump);
 		out.setPosition(screenEdgeX, Ground - out.getBounds().size.y);
 		return out;
 	}
