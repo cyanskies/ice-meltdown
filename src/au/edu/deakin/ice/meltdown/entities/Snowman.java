@@ -9,7 +9,7 @@ public class Snowman extends GameObject {
 
 	private static final float GRAVITY = 9.8f;
 	private int mJumpTime = 0;
-	private static final int JUMP_POWER = 20;
+	private static final int JUMP_POWER = 15;  // must be larger than GRAVITY
 	
 	private int mState = 1;
 	//States

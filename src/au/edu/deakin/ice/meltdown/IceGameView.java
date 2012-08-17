@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import au.edu.deakin.ice.meltdown.entities.Snowman;
+import au.edu.deakin.ice.meltdown.entities.Threat;
 import au.edu.deakin.ice.meltdown.entities.ThreatGenerator;
 
 public class IceGameView extends GameView {
@@ -17,11 +18,12 @@ public class IceGameView extends GameView {
 	private final GameObject mGround = new GameObject(R.drawable.ground);
 	private final TextObject mScore = new TextObject("Score!!", color.primary_text_light);
 	
-	private final LinkedList<GameObject> ObjectList = new LinkedList<GameObject>();
+	private final LinkedList<Threat> ThreatList = new LinkedList<Threat>();
 	private ThreatGenerator mGen;
 
-	private final int ThreatGenerateTime = 30; 
+	private final int ThreatGenerateTime = 60; 
 	private int ThreatGenerateCount = ThreatGenerateTime;
+	private int score = 5;
 	
 	private float mHorizontal = 0;
 	
@@ -38,7 +40,7 @@ public class IceGameView extends GameView {
 	public void Init() {
 		mHorizontal = mScreenSize.y - 50;
 		mGround.setPosition(-5.f, mHorizontal);
-		mSnowman.setPosition(50.f, 0);
+		mSnowman.setPosition(50.f, mGround.getBounds().position.y - mSnowman.getBounds().size.y);
 		mScore.setPosition(50.f,  50.f);
 		
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - (mSnowman.getBounds().size.y / 2));
@@ -49,17 +51,23 @@ public class IceGameView extends GameView {
 		Log.d(mName, "Starting Update step");
 		Rect bounds = mSnowman.getBounds();
 		if(bounds.position.x <= 0 || bounds.position.x + bounds.size.x >= mScreenSize.x)
-			mSnowmanMove *= -1;
+		{}
+		else
+		{
+			//all com
+		}
 		
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
-			ObjectList.add(mGen.Generate());
+			ThreatList.add(mGen.Generate());
 			ThreatGenerateCount = ThreatGenerateTime;
 		}
 		
-		for(GameObject o : ObjectList){
+		for(GameObject o : ThreatList){
 			o.update();
 		}
+		
+		mScore.setText("Score: " + score);
 		
 		mSnowman.update();
 		mSnowman.move(mSnowmanMove, 0);
@@ -77,8 +85,11 @@ public class IceGameView extends GameView {
 			mSnowman.move(0,  -r.size.y);
 		}
 		
-		for(GameObject o : ObjectList){
-			if(mSnowman.getBounds().intersects(o.getBounds())){
+		for(Threat o : ThreatList){
+			if(!o.isHit() && mSnowman.getBounds().intersects(o.getBounds())){
+				score--;
+				
+				o.hit();
 				//take away health, 
 				//destroy colliding object
 			}
@@ -95,7 +106,7 @@ public class IceGameView extends GameView {
 		draw(mGround);
 		draw(mScore);
 		
-		for(GameObject o : ObjectList){
+		for(Threat o : ThreatList){
 			draw(o);
 		}
 		
@@ -106,7 +117,7 @@ public class IceGameView extends GameView {
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 			if(mSnowman.IsIdle())
-				mSnowman.Jump(5);
+				mSnowman.Jump(20);
 		}
 		
 		return super.onTouchEvent(event);
