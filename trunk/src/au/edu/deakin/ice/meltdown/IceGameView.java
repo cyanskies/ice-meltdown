@@ -1,5 +1,6 @@
 package au.edu.deakin.ice.meltdown;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import android.R.color;
@@ -17,6 +18,7 @@ public class IceGameView extends GameView {
 	private final Snowman mSnowman = new Snowman(R.drawable.ic_launcher);
 	private final GameObject mGround = new GameObject(R.drawable.ground);
 	private final TextObject mScore = new TextObject("Score!!", color.primary_text_light);
+	private final GameObject mSnowBall = new GameObject(R.drawable.snowball);
 	
 	private final LinkedList<Threat> ThreatList = new LinkedList<Threat>();
 	private ThreatGenerator mGen;
@@ -38,8 +40,10 @@ public class IceGameView extends GameView {
 	public void Init() {
 		mHorizontal = mScreenSize.y - 50;
 		mGround.setPosition(-5.f, mHorizontal);
-		mSnowman.setPosition(50.f, mHorizontal - mSnowman.getBounds().size.y);
-		mScore.setPosition(50.f,  50.f);
+		mSnowBall.setPosition(0.f, mHorizontal - mSnowBall.getBounds().size.y);
+		
+		mSnowman.setPosition(150.f, mHorizontal - mSnowman.getBounds().size.y);
+		mScore.setPosition(50.f,  50.f);		
 		
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - (mSnowman.getBounds().size.y / 2));
 	}
@@ -61,11 +65,17 @@ public class IceGameView extends GameView {
 			ThreatGenerateCount = ThreatGenerateTime;
 		}
 		
+		ArrayList<Integer> removeList = new ArrayList<Integer>();
+		
 		for(GameObject o : ThreatList){
 			o.update();
 			
 			if(o.getBounds().position.x + o.getBounds().size.x < 0)
-				ThreatList.remove(o);
+				removeList.add(ThreatList.indexOf(o));
+		}
+		
+		for(Integer i : removeList){
+			ThreatList.remove(i);
 		}
 		
 		mScore.setText("Score: " + score);
