@@ -40,7 +40,7 @@ public class IceGameView extends GameView {
 	public void Init() {
 		mHorizontal = mScreenSize.y - 50;
 		mGround.setPosition(-5.f, mHorizontal);
-		mSnowman.setPosition(50.f, mGround.getBounds().position.y - mSnowman.getBounds().size.y);
+		mSnowman.setPosition(50.f, mHorizontal - mSnowman.getBounds().size.y);
 		mScore.setPosition(50.f,  50.f);
 		
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - (mSnowman.getBounds().size.y / 2));
@@ -65,12 +65,14 @@ public class IceGameView extends GameView {
 		
 		for(GameObject o : ThreatList){
 			o.update();
+			
+			if(o.getBounds().position.x + o.getBounds().size.x < 0)
+				ThreatList.remove(o);
 		}
 		
 		mScore.setText("Score: " + score);
 		
 		mSnowman.update();
-		mSnowman.move(mSnowmanMove, 0);
 		
 		CheckCollisions();
 	}
