@@ -27,13 +27,20 @@ public class GameThread extends Thread {
 	 @Override
 	 public void run() {
 		 Canvas canvas;
-		 Log.d(mName, "Starting game loop");
+		
 		 
 		 long frameStart, frameDelta;
 		 int sleep;
 		 
+		 while (mGame.ScreenInit() == false) {
+			 try {
+				 sleep(10);
+			 } catch (InterruptedException e) {}
+		 }
+		 
 		 mGame.Init();
 		 
+		 Log.d(mName, "Starting game loop");
 		 while (running) {
 			 canvas = null;
 		     // try locking the canvas for exclusive pixel editing

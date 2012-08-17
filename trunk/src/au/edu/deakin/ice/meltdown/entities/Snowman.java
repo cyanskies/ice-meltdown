@@ -11,11 +11,16 @@ public class Snowman extends GameObject {
 	private int mJumpTime = 0;
 	private static final int JUMP_POWER = 15;  // must be larger than GRAVITY
 	
-	private int mState = 1;
+	private int mState = 2;
 	//States
 	private static final int JUMP = 0;
-	private static final int IDLE = 1;
+	private static final int FALLING = 1;
+	private static final int IDLE = 2;
 	
+	
+	public void setState(int state){
+		mState = state;
+	}
 	/**
 	 * @param image
 	 */
@@ -30,11 +35,14 @@ public class Snowman extends GameObject {
 		if(mState == JUMP)
 		{
 			if(mJumpTime == 0)
-				mState = IDLE;
+				mState = FALLING;
 			else {
 				--mJumpTime;
 				move(0, -JUMP_POWER);
 			}
+		}
+		else if(mState == FALLING){
+			
 		}
 		else if(mState == IDLE)
 		{}

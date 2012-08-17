@@ -24,6 +24,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private final Paint mPaint = new Paint();
 	protected Vector2 mScreenSize  = new Vector2();
 	
+	private boolean mScreenInit = false;
+	
+	public boolean ScreenInit(){
+		return mScreenInit;
+	}
+	
 	public GameView(Context context) {
 		super(context);
 		getHolder().addCallback(this);
@@ -91,6 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			int height) {
 		Log.d(mName, "Surface Cha-Cha-Changed!!!");
 		mScreenSize = new Vector2(width, height);
+		
+		mScreenInit = true;
 		
 		mThread.setRunning(true);
 		if(!mThread.isAlive())

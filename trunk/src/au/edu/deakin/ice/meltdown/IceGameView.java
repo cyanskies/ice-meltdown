@@ -27,8 +27,6 @@ public class IceGameView extends GameView {
 	
 	private float mHorizontal = 0;
 	
-	private float mSnowmanMove = 1.f;
-	
 	public IceGameView(Context context) {
 		super(context);
 		Log.d(mName, "Creating gameview");
@@ -85,6 +83,7 @@ public class IceGameView extends GameView {
 		if(mSnowman.getBounds().intersects(mGround.getBounds())){
 			r = mSnowman.getBounds().GetOverlapRect(mGround.getBounds());
 			mSnowman.move(0,  -r.size.y);
+			mSnowman.setState(2); // 2 == IDLE
 		}
 		
 		for(Threat o : ThreatList){
