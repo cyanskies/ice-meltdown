@@ -8,14 +8,14 @@ import android.util.Log;
 
 public class GameObject{
 
-	private static Resources mR = null;
+	protected static Resources mR = null;
 	private static final String mName = GameObject.class.getSimpleName();
 	
 	public static void setResources(Resources r){
 		mR = r;
 	}
 	
-	private Bitmap mB;
+	protected Bitmap mB;
 	private Matrix mM = new Matrix();
 	
 	public GameObject(int image){
@@ -35,8 +35,8 @@ public class GameObject{
 	
 	public void draw(GameView v){
 		DrawData d = new DrawData();
-		d.b = mB;
-		d.m = mM;
+		d.b = this.getBitmap();
+		d.m = this.getMatrix();
 		v.draw(d);
 	}
 	

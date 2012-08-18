@@ -27,6 +27,9 @@ public class IceGameView extends GameView {
 	private int ThreatGenerateCount = ThreatGenerateTime;
 	private int score = 5;
 	
+	private final int TOUCHMAX = 10;
+	private int mTouchCount = 0;
+	
 	private float mHorizontal = 0;
 	
 	public IceGameView(Context context) {
@@ -51,14 +54,9 @@ public class IceGameView extends GameView {
 	//@Override
 	public void Update(){
 		Log.d(mName, "Starting Update step");
-		Rect bounds = mSnowman.getBounds();
-		if(bounds.position.x <= 0 || bounds.position.x + bounds.size.x >= mScreenSize.x)
-		{}
-		else
-		{
-			//all com
-		}
 		
+		mTouchCount++;
+
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
 			ThreatList.add(mGen.Generate());
@@ -80,6 +78,9 @@ public class IceGameView extends GameView {
 		
 		mScore.setText("Score: " + score);
 		
+		if(mTouchCount == TOUCHMAX && mSnowman.getState() == Snowman.DUCK)
+			//mSnowman.setState(Snowman.IDLE);
+		
 		mSnowman.update();
 		
 		CheckCollisions();
@@ -93,7 +94,9 @@ public class IceGameView extends GameView {
 		if(mSnowman.getBounds().intersects(mGround.getBounds())){
 			r = mSnowman.getBounds().GetOverlapRect(mGround.getBounds());
 			mSnowman.move(0,  -r.size.y);
-			mSnowman.setState(2); // 2 == IDLE
+			
+			if(mSnowman.getState() == Snowman.FALLING)
+				mSnowman.setState(Snowman.IDLE); // 2 == IDLE
 		}
 		
 		for(Threat o : ThreatList){
@@ -126,12 +129,22 @@ public class IceGameView extends GameView {
 	
 	//@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		mTouchCount = 0;
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			if(mSnowman.IsIdle())
-				mSnowman.Jump(20);
+			
+			
+			if(mSnowman.IsIdle()){
+				float ySize = mSnowman.getBounds().size.y;
+				mSnowman.setState(Snowman.DUCK);
+				mSnowman.move(0, ySize - mSnowman.getBounds().size.y);
+			}
+			
+				//mSnowman.Jump(20);
 		}
+		else if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_POINTER_UP || event.getAction() == MotionEvent.ACTION_CANCEL)
+			mSnowman.setState(Snowman.IDLE);
 		
-		return super.onTouchEvent(event);
+		return true;
 	}
 	
 }
