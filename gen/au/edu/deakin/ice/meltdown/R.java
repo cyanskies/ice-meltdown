@@ -15,7 +15,9 @@ public final class R {
         public static final int ic_action_search=0x7f020001;
         public static final int ic_launcher=0x7f020002;
         public static final int snowball=0x7f020003;
-        public static final int stump=0x7f020004;
+        public static final int snowman_duck=0x7f020004;
+        public static final int snowman_idle=0x7f020005;
+        public static final int stump=0x7f020006;
     }
     public static final class string {
         public static final int app_name=0x7f030000;
