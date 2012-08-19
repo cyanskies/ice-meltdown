@@ -20,7 +20,7 @@ public class IceGameView extends GameView {
 	private final TextObject mScore = new TextObject("Score!!", color.primary_text_light);
 	private final GameObject mSnowBall = new GameObject(R.drawable.snowball);
 	
-	private final LinkedList<Threat> ThreatList = new LinkedList<Threat>();
+	private final LinkedList<Threat> mThreatList = new LinkedList<Threat>();
 	private ThreatGenerator mGen;
 
 	private final int ThreatGenerateTime = 60; 
@@ -32,6 +32,9 @@ public class IceGameView extends GameView {
 	private Vector2 mTouchPos;
 	
 	private float mHorizontal = 0;
+	
+	private float Vert1, Vert2, Vert3;
+	private int Vert_Target = 2; //these are for moving forwards and backwards
 	
 	public IceGameView(Context context) {
 		super(context);
@@ -46,7 +49,13 @@ public class IceGameView extends GameView {
 		mGround.setPosition(-5.f, mHorizontal);
 		mSnowBall.setPosition(0.f, mHorizontal - mSnowBall.getBounds().size.y);
 		
-		mSnowman.setPosition(150.f, mHorizontal - mSnowman.getBounds().size.y);
+		Vert2 = mScreenSize.x / 2;
+		Vert1 = Vert2 /2;
+		Vert3 = Vert2 + Vert1;
+		
+		mSnowman.setMoveSpeed(Vert1 / 10);
+		
+		mSnowman.setPosition(Vert2, mHorizontal - mSnowman.getBounds().size.y);
 		mScore.setPosition(50.f,  50.f);		
 		
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - (mSnowman.getBounds().size.y / 2));
@@ -58,25 +67,46 @@ public class IceGameView extends GameView {
 		
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
-			ThreatList.add(mGen.Generate());
+			mThreatList.add(mGen.Generate());
 			ThreatGenerateCount = ThreatGenerateTime;
 		}
 		
 		ArrayList<Integer> removeList = new ArrayList<Integer>();
 		
-		for(GameObject o : ThreatList){
+		for(GameObject o : mThreatList){
 			o.update();
 			
 			if(o.getBounds().position.x + o.getBounds().size.x < 0)
-				removeList.add(ThreatList.indexOf(o));
+				removeList.add(mThreatList.indexOf(o));
 		}
 		
 		for(Integer i : removeList){
-			ThreatList.remove(i);
+			mThreatList.remove(i);
 		}
 		
 		mScore.setText("Score: " + score);
 		mSnowman.update();
+		
+		if(mSnowman.getState() == Snowman.MOVING){
+			float target = 0;
+			
+			if(Vert_Target == 1)
+				target = Vert1;
+			else if(Vert_Target == 2)
+				target = Vert2;
+			else if(Vert_Target == 3)
+				target = Vert3;
+			
+			float current = mSnowman.getBounds().position.x;
+			if(mSnowman.isMoving_Right()){
+				if(current > target)
+					mSnowman.setState(Snowman.IDLE);
+			}
+			else{
+				if(current < target)
+					mSnowman.setState(Snowman.IDLE);
+			}
+		}
 		
 		CheckCollisions();
 	}
@@ -95,7 +125,7 @@ public class IceGameView extends GameView {
 				mSnowman.setState(Snowman.IDLE); // 2 == IDLE
 		}
 		
-		for(Threat o : ThreatList){
+		for(Threat o : mThreatList){
 			if(!o.isHit() && mSnowman.getBounds().intersects(o.getBounds())){
 				score--;
 				
@@ -117,7 +147,7 @@ public class IceGameView extends GameView {
 		draw(mScore);
 		draw(mSnowBall);
 		
-		for(Threat o : ThreatList){
+		for(Threat o : mThreatList){
 			draw(o);
 		}
 		
@@ -152,9 +182,21 @@ public class IceGameView extends GameView {
 					mSnowman.Jump(20);
 					return false;
 				}
-				
-				if(false)
-					;// move horizontally?
+				else {
+					if(delta.x < 0 && Vert_Target > 0) {
+						Vert_Target--;
+						mSnowman.setMoving_Dir(false);
+						mSnowman.setState(Snowman.MOVING);
+					}
+					else if(delta.x > 0 && Vert_Target < 3) {
+						Vert_Target++;
+						mSnowman.setMoving_Dir(true);
+						mSnowman.setState(Snowman.MOVING);
+					}
+					else
+						return false;
+
+				}
 			}
 			else
 				mSnowman.setState(Snowman.IDLE);
