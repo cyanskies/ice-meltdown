@@ -115,6 +115,7 @@ public class IceGameView extends GameView {
 		draw(mSnowman);
 		draw(mGround);
 		draw(mScore);
+		draw(mSnowBall);
 		
 		for(Threat o : ThreatList){
 			draw(o);
