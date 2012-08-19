@@ -29,6 +29,7 @@ public class IceGameView extends GameView {
 	
 	private final int TOUCHMAX = 10;
 	private int mTouchCount = 0;
+	private Vector2 mTouchPos;
 	
 	private float mHorizontal = 0;
 	
@@ -53,7 +54,7 @@ public class IceGameView extends GameView {
 	
 	//@Override
 	public void Update(){
-		Log.d(mName, "Starting Update step");
+		//Log.d(mName, "Starting Update step");
 		
 		mTouchCount++;
 
@@ -112,7 +113,7 @@ public class IceGameView extends GameView {
 	
 	//@Override
 	public void Draw(Canvas canvas){
-		Log.d(mName, "Starting Draw step");
+		//Log.d(mName, "Starting Draw step");
 		// clear, go through each entity and call draw, then call display
 		clear(canvas);
 		
@@ -131,9 +132,10 @@ public class IceGameView extends GameView {
 	public boolean onTouchEvent(MotionEvent event) {
 		mTouchCount = 0;
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			
-			
+			Log.d(mName, "Pointer Down at (" + event.getX() + ", " + event.getY() + ")");
+			mTouchPos = new Vector2(event.getX(), event.getY());
 			if(mSnowman.IsIdle()){
+				
 				float ySize = mSnowman.getBounds().size.y;
 				mSnowman.setState(Snowman.DUCK);
 				mSnowman.move(0, ySize - mSnowman.getBounds().size.y);
@@ -141,7 +143,19 @@ public class IceGameView extends GameView {
 			
 				//mSnowman.Jump(20);
 		}
-		else if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_POINTER_UP || event.getAction() == MotionEvent.ACTION_CANCEL)
+		else if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_POINTER_UP) {
+			Log.d(mName, "Pointer Up at (" + event.getX() + ", " + event.getY() + ")");
+			Vector2 delta = new Vector2(event.getX(), event.getY());
+			delta.sub(mTouchPos);
+
+			float value = Math.abs(delta.x) + Math.abs(delta.y);
+			Log.d(mName, "Pointer move value (" + value + ")");
+			if(value > 30)
+				Log.d(mName, "(" + event.getX() + ", " + event.getY() + ")");
+			else
+				mSnowman.setState(Snowman.IDLE);
+		}
+		else if(event.getAction() == MotionEvent.ACTION_CANCEL)
 			mSnowman.setState(Snowman.IDLE);
 		
 		return true;

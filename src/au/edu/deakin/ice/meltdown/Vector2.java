@@ -31,7 +31,7 @@ public class Vector2 {
 	 * @return The new Vector2 value */
 	public Vector2 add(Vector2 v){
 		this.x += v.x;
-		this.x += v.y;
+		this.y += v.y;
 		return new Vector2(this);
 	}
 	
@@ -40,7 +40,7 @@ public class Vector2 {
 	 * @return The new Vector2 value */
 	public Vector2 sub(Vector2 v){
 		this.x -= v.x;
-		this.x -= v.y;
+		this.y -= v.y;
 		return new Vector2(this);
 	}
 
