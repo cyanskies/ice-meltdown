@@ -27,8 +27,8 @@ public class IceGameView extends GameView {
 	private int ThreatGenerateCount = ThreatGenerateTime;
 	private int score = 5;
 	
-	private final int TOUCHMAX = 10;
-	private int mTouchCount = 0;
+	//private final int TOUCHMAX = 10;
+	//private int mTouchCount = 0;
 	private Vector2 mTouchPos;
 	
 	private float mHorizontal = 0;
@@ -56,8 +56,6 @@ public class IceGameView extends GameView {
 	public void Update(){
 		//Log.d(mName, "Starting Update step");
 		
-		mTouchCount++;
-
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
 			ThreatList.add(mGen.Generate());
@@ -78,10 +76,6 @@ public class IceGameView extends GameView {
 		}
 		
 		mScore.setText("Score: " + score);
-		
-		if(mTouchCount == TOUCHMAX && mSnowman.getState() == Snowman.DUCK)
-			//mSnowman.setState(Snowman.IDLE);
-		
 		mSnowman.update();
 		
 		CheckCollisions();
@@ -96,6 +90,7 @@ public class IceGameView extends GameView {
 			r = mSnowman.getBounds().GetOverlapRect(mGround.getBounds());
 			mSnowman.move(0,  -r.size.y);
 			
+			//if we've hit the ground then we should return to the idle state
 			if(mSnowman.getState() == Snowman.FALLING)
 				mSnowman.setState(Snowman.IDLE); // 2 == IDLE
 		}
@@ -130,7 +125,7 @@ public class IceGameView extends GameView {
 	
 	//@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		mTouchCount = 0;
+		//mTouchCount = 0;
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 			Log.d(mName, "Pointer Down at (" + event.getX() + ", " + event.getY() + ")");
 			mTouchPos = new Vector2(event.getX(), event.getY());
@@ -150,8 +145,16 @@ public class IceGameView extends GameView {
 
 			float value = Math.abs(delta.x) + Math.abs(delta.y);
 			Log.d(mName, "Pointer move value (" + value + ")");
-			if(value > 30)
-				Log.d(mName, "(" + event.getX() + ", " + event.getY() + ")");
+			if(value > 30){
+				if(Math.abs(delta.y) > Math.abs(delta.x))
+				{
+					mSnowman.Jump(20);
+					return false;
+				}
+				
+				if(false)
+					;// move horizontally?
+			}
 			else
 				mSnowman.setState(Snowman.IDLE);
 		}

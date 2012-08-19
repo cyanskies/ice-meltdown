@@ -48,7 +48,6 @@ public class Snowman extends GameObject {
 		
 		mState = IDLE;
 		mB = mIdle;
-		// TODO Auto-generated constructor stub
 	}
 
 	public void update() {
@@ -69,8 +68,9 @@ public class Snowman extends GameObject {
 		else if(mState == DUCK){
 			
 		}
-		else if(mState == IDLE)
-		{}
+		else if(mState == IDLE){
+			
+		}
 	}
 		
 	public boolean IsIdle(){
@@ -78,7 +78,8 @@ public class Snowman extends GameObject {
 	}
 	
 	public void Jump(int time){
-		mState = 0;
+		mState = JUMP;
+		mB = mIdle;
 		mJumpTime = time;
 	}
 }
