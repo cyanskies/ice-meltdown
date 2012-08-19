@@ -24,6 +24,14 @@ public class Snowman extends GameObject {
 	public static final int FALLING = 1;
 	public static final int IDLE = 2;
 	public static final int DUCK = 3;
+	public static final int MOVING = 4;
+	
+	private boolean mMoving_Right;
+	private float MOVE_SPEED = 25;
+	
+	public void setMoveSpeed(float speed){
+		MOVE_SPEED = speed;
+	}
 	
 	
 	public void setState(int state){
@@ -71,6 +79,12 @@ public class Snowman extends GameObject {
 		else if(mState == IDLE){
 			
 		}
+		else if(mState == MOVING){
+			if(mMoving_Right)
+				move(MOVE_SPEED, 0);
+			else
+				move(-MOVE_SPEED, 0);
+		}
 	}
 		
 	public boolean IsIdle(){
@@ -81,5 +95,13 @@ public class Snowman extends GameObject {
 		mState = JUMP;
 		mB = mIdle;
 		mJumpTime = time;
+	}
+
+	public boolean isMoving_Right() {
+		return mMoving_Right;
+	}
+
+	public void setMoving_Dir(boolean mMoving_Right) {
+		this.mMoving_Right = mMoving_Right;
 	}
 }
