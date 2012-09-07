@@ -58,7 +58,10 @@ public class IceGameView extends GameView {
 		mSnowman.setPosition(Vert2, mHorizontal - mSnowman.getBounds().size.y);
 		mScore.setPosition(50.f,  50.f);		
 		
-		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - (mSnowman.getBounds().size.y / 2));
+		//the values passed here control the positions the threats are spawned at, these can be tweeked as needed.
+		//Ive made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
+		// since he's a little short) these values should still work.
+		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - mSnowman.getBounds().size.y + (mSnowman.getBounds().size.y / 4));
 	}
 	
 	//@Override
@@ -67,7 +70,7 @@ public class IceGameView extends GameView {
 		
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
-			mThreatList.add(mGen.Generate());
+			mThreatList.add(mGen.Generate(mSnowman.getBounds().position.x));
 			ThreatGenerateCount = ThreatGenerateTime;
 		}
 		
@@ -77,6 +80,8 @@ public class IceGameView extends GameView {
 			o.update();
 			
 			if(o.getBounds().position.x + o.getBounds().size.x < 0)
+				removeList.add(mThreatList.indexOf(o));
+			if(o.getBounds().position.y > mScreenSize.y)
 				removeList.add(mThreatList.indexOf(o));
 		}
 		
@@ -183,7 +188,7 @@ public class IceGameView extends GameView {
 					return false;
 				}
 				else {
-					if(delta.x < 0 && Vert_Target > 0) {
+					if(delta.x < 0 && Vert_Target > 0) { //Something is wrong in this code, but I'm not sure what?
 						Vert_Target--;
 						mSnowman.setMoving_Dir(false);
 						mSnowman.setState(Snowman.MOVING);
