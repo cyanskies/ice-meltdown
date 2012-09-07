@@ -7,7 +7,26 @@ import android.app.Activity;
 public class MainActivity extends Activity{
 	
 	private static final String mName = MainActivity.class.getSimpleName();
-	@Override
+	//@Override
+	private String[] mScoreDates;
+	private int[] mScores;
+	
+	public String[] getScoreDates(){
+		return mScoreDates;
+	}
+	
+	public int[] getScores(){
+		return mScores;
+	}
+	
+	public void setScoreDates(String[] d){
+		mScoreDates = d;
+	}
+	
+	public void setScores(int[] i){
+		mScores = i;
+	}
+	
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -15,18 +34,27 @@ public class MainActivity extends Activity{
         IceGameView mView = new IceGameView(getApplicationContext());
         setContentView(mView);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mScoreDates = savedInstanceState.getStringArray("dates");
+        mScores = savedInstanceState.getIntArray("scores");
     }
 
-    @Override
+   // @Override
     protected void onPause() {
         super.onPause();
         Log.d(mName, "Paused");
     }
 
-    @Override
+   // @Override
     public void onSaveInstanceState(Bundle outState) {
     	Log.d(mName, "Saving Instance");
     	//save game data
+    	
+    	outState.putStringArray("dates", mScoreDates);
+    	outState.putIntArray("scores", mScores);
+    }
+    
+    public void changeView(GameView view){
+    	setContentView(view);
     }
 }
 
