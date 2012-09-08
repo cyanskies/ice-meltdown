@@ -32,6 +32,7 @@ public class MainActivity extends Activity{
 		
 		Log.d(mName, "Creating main activity");
         IceGameView mView = new IceGameView(getApplicationContext());
+        mView.setParent(this);
         setContentView(mView);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         mScoreDates = savedInstanceState.getStringArray("dates");
@@ -54,6 +55,7 @@ public class MainActivity extends Activity{
     }
     
     public void changeView(GameView view){
+    	view.setParent(this);
     	setContentView(view);
     }
 }
