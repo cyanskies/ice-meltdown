@@ -3,6 +3,7 @@ package au.edu.deakin.ice.meltdown;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,7 +24,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private GameThread mThread;
 	private final Paint mPaint = new Paint();
 	protected Vector2 mScreenSize  = new Vector2();
+	protected Activity mParent;
 	
+	public void setParent(Activity mParent) {
+		this.mParent = mParent;
+	}
 	private boolean mScreenInit = false;
 	
 	public boolean ScreenInit(){
