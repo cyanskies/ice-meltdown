@@ -9,6 +9,8 @@ package au.edu.deakin.ice.meltdown.entities;
  */
 public class RockFall extends Threat {
 
+	private static final int mFallSpeed = 3;
+	
 	/**
 	 * @param image
 	 */
@@ -18,7 +20,7 @@ public class RockFall extends Threat {
 	}
 	
 	public void update() {
-		move(0, 10);
+		move(0, mFallSpeed);
 	}
 
 }

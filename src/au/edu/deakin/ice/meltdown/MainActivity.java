@@ -35,7 +35,7 @@ public class MainActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		
 		Log.d(mName, "Creating main activity");
-        IceGameView mView = new IceGameView(getApplicationContext());
+        ScoreView mView = new ScoreView(getApplicationContext());
         mView.setParent(this);
         setContentView(mView);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
