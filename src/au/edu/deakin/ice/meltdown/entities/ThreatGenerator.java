@@ -28,7 +28,7 @@ public class ThreatGenerator {
 		else if(threatCount % 5 == 0) // every 5'th threat is a ravine
 		{
 			out = new Threat(R.drawable.ravine);
-			out.setPosition(screenEdgeX, Ground);
+			out.setPosition(screenEdgeX, Ground - 1);
 		}
 		else // the intervening odd numbered threats are flying
 		{
