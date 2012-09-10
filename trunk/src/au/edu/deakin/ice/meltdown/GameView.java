@@ -147,4 +147,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	public void Draw(Canvas canvas){
 	}
+	
+	public void changeView(GameView view){
+		MainActivity main = (MainActivity) mParent;
+		mThread.setRunning(false);
+		main.changeView(view);
+    }
 }

@@ -194,7 +194,7 @@ public class IceGameView extends GameView {
 			float value = Math.abs(delta.x) + Math.abs(delta.y);
 			Log.d(mName, "Pointer move value (" + value + ")");
 			if(value > 30){
-				if(mSnowman.IsIdle() && Math.abs(delta.y) > Math.abs(delta.x))
+				if(mSnowman.getState() == Snowman.DUCK && Math.abs(delta.y) > Math.abs(delta.x))
 				{
 					mSnowman.Jump(20);
 					return false;
