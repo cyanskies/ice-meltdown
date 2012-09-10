@@ -1,5 +1,9 @@
 package au.edu.deakin.ice.meltdown;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.app.Activity;
@@ -35,8 +39,30 @@ public class MainActivity extends Activity{
         mView.setParent(this);
         setContentView(mView);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mScoreDates = savedInstanceState.getStringArray("dates");
-        mScores = savedInstanceState.getIntArray("scores");
+        if(savedInstanceState != null){
+        	mScoreDates = savedInstanceState.getStringArray("dates");
+        
+        	mScores = savedInstanceState.getIntArray("scores");
+        }
+        else{
+        	mScoreDates = null; 
+        	mScores = null;
+        }
+        
+        if(mScoreDates == null)
+        {
+        	DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        	String formattedDate = df.format(new Date());
+        	
+        	String[] ScoreDates = {formattedDate, formattedDate, formattedDate, formattedDate, formattedDate};
+        	mScoreDates = ScoreDates;
+        }
+        
+        if(mScores == null)
+        {
+        	int[] Scores = {0, 0, 0, 0, 0};
+        	mScores = Scores;
+        }
     }
 
    // @Override

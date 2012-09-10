@@ -27,6 +27,10 @@ public class IceGameView extends GameView {
 	private int ThreatGenerateCount = ThreatGenerateTime;
 	private int score = 5;
 	
+	private boolean mDamageProtection = false;
+	private static final int mMaxDamageCount = 20;
+	private int mDamageCount;
+	
 	//private final int TOUCHMAX = 10;
 	//private int mTouchCount = 0;
 	private Vector2 mTouchPos;
@@ -67,6 +71,9 @@ public class IceGameView extends GameView {
 	//@Override
 	public void Update(){
 		//Log.d(mName, "Starting Update step");
+		
+		if(mDamageCount >= mMaxDamageCount)
+			mDamageProtection = false;
 		
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
@@ -118,7 +125,6 @@ public class IceGameView extends GameView {
 	
 	public void CheckCollisions(){
 		Rect r;
-				
 		
 		//push the snowman up if he's sinking into the ground
 		if(mSnowman.getBounds().intersects(mGround.getBounds())){
@@ -131,10 +137,12 @@ public class IceGameView extends GameView {
 		}
 		
 		for(Threat o : mThreatList){
-			if(!o.isHit() && mSnowman.getBounds().intersects(o.getBounds())){
+			if(!mDamageProtection && !o.isHit() && mSnowman.getBounds().intersects(o.getBounds())){
 				score--;
 				
 				o.hit();
+				mDamageProtection = true;
+				mDamageCount = 0;
 				//take away health, 
 				//destroy colliding object
 			}
@@ -147,7 +155,11 @@ public class IceGameView extends GameView {
 		// clear, go through each entity and call draw, then call display
 		clear(canvas);
 		
-		draw(mSnowman);
+		if(mDamageProtection && mDamageCount++ % 2 == 0)
+			draw(mSnowman);
+		else if(!mDamageProtection)
+			draw(mSnowman);
+		
 		draw(mGround);
 		draw(mScore);
 		draw(mSnowBall);
@@ -182,7 +194,7 @@ public class IceGameView extends GameView {
 			float value = Math.abs(delta.x) + Math.abs(delta.y);
 			Log.d(mName, "Pointer move value (" + value + ")");
 			if(value > 30){
-				if(Math.abs(delta.y) > Math.abs(delta.x))
+				if(mSnowman.IsIdle() && Math.abs(delta.y) > Math.abs(delta.x))
 				{
 					mSnowman.Jump(20);
 					return false;
