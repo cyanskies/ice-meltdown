@@ -26,6 +26,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	protected Vector2 mScreenSize  = new Vector2();
 	protected Activity mParent;
 	
+	private boolean mAlive = true;
+	
+	public boolean ready() {
+		return mScreenInit;
+	}
+	
+	public void pause() {
+		mThread.setRunning(false);
+	}
+	
+	public void resume(){
+		mThread.setRunning(true);
+		if(!mThread.isAlive())
+			mThread.start();
+	}
+	
+	public void kill(){
+		mAlive = false;
+		mThread.setRunning(false);
+		
+		while(mThread.isAlive())
+		try {
+			mThread.join();
+		} catch (InterruptedException e) {}
+	}
+	
+	public boolean isAlive(){
+		return mAlive;
+	}
+	
 	public void setParent(Activity mParent) {
 		this.mParent = mParent;
 	}
@@ -104,10 +134,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mScreenSize = new Vector2(width, height);
 		
 		mScreenInit = true;
-		
-		mThread.setRunning(true);
-		if(!mThread.isAlive())
-			mThread.start();
 	}
 	
 	//@Override
@@ -139,8 +165,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		return super.onTouchEvent(event);
 	}
 	
-	public void Init() {
+	public void Init(){}
+	public void ViewInit() {
 		
+		mThread.setRunning(true);
+		if(!mThread.isAlive())
+			mThread.start();
 	}
 	
 	public void Update() {
@@ -150,7 +180,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	
 	public void changeView(GameView view){
 		MainActivity main = (MainActivity) mParent;
-		mThread.setRunning(false);
 		main.changeView(view);
     }
 }

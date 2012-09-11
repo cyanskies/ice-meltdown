@@ -14,6 +14,9 @@ public class MainActivity extends Activity{
 	//@Override
 	private String[] mScoreDates;
 	private int[] mScores;
+	private ActivityThread mThread;
+	private GameView mCurrent, mNext;
+	private Runnable mRun;
 	
 	public String[] getScoreDates(){
 		return mScoreDates;
@@ -35,9 +38,6 @@ public class MainActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		
 		Log.d(mName, "Creating main activity");
-        ScoreView mView = new ScoreView(getApplicationContext());
-        mView.setParent(this);
-        setContentView(mView);
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         if(savedInstanceState != null){
         	mScoreDates = savedInstanceState.getStringArray("dates");
@@ -63,11 +63,18 @@ public class MainActivity extends Activity{
         	int[] Scores = {0, 0, 0, 0, 0};
         	mScores = Scores;
         }
+        
+        mThread = new ActivityThread(this);
+        mThread.setRunning(true);
+        mThread.start();
+        
+        changeView(new ScoreView(getApplicationContext()));
     }
 
    // @Override
     protected void onPause() {
         super.onPause();
+        mThread.setRunning(false);
         Log.d(mName, "Paused");
     }
 
@@ -81,8 +88,30 @@ public class MainActivity extends Activity{
     }
     
     public void changeView(GameView view){
-    	view.setParent(this);
-    	setContentView(view);
+    		mNext = view;
+    		view.setParent(this);
+    }
+    
+    public void init(){
+    	ScoreView mView = new ScoreView(getApplicationContext());
+        mView.setParent(this);
+        mNext = mView;
+    }
+    
+    public void tick(){
+    	runOnUiThread(new Runnable() {
+    	public void run() {
+    	if(mNext != null){
+    		//synchronized(mNext){
+    		if(mCurrent != null) mCurrent.kill();
+        	setContentView(mNext);
+        	mCurrent = mNext;
+        	mNext = null;
+        	
+        	mCurrent.ViewInit();
+    	//}
+    	}}});
+    		
     }
 }
 
