@@ -17,7 +17,8 @@ public class IceGameView extends GameView {
 	private static final String mName = IceGameView.class.getSimpleName();
 	private final Snowman mSnowman = new Snowman(R.drawable.ic_launcher);
 	private final GameObject mGround = new GameObject(R.drawable.ground);
-	private final TextObject mScore = new TextObject("Score!!", color.primary_text_light);
+	private final TextObject mLive = new TextObject("", color.primary_text_light);
+	private final TextObject mScore = new TextObject("", color.primary_text_light);
 	private final GameObject mSnowBall = new GameObject(R.drawable.snowball);
 	
 	private final LinkedList<Threat> mThreatList = new LinkedList<Threat>();
@@ -25,7 +26,8 @@ public class IceGameView extends GameView {
 
 	private final int ThreatGenerateTime = 60; 
 	private int ThreatGenerateCount = ThreatGenerateTime;
-	private int score = 5;
+	private int live = 5;
+	private int score = 0;
 	
 	private boolean mDamageProtection = false;
 	private static final int mMaxDamageCount = 20;
@@ -60,8 +62,8 @@ public class IceGameView extends GameView {
 		mSnowman.setMoveSpeed(Vert1 / 10);
 		
 		mSnowman.setPosition(Vert2, mHorizontal - mSnowman.getBounds().size.y);
-		mScore.setPosition(50.f,  50.f);		
-		
+		mLive.setPosition(50.f,  50.f);		
+		mScore.setPosition(150.f,  50.f);
 		//the values passed here control the positions the threats are spawned at, these can be tweeked as needed.
 		//Ive made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
 		// since he's a little short) these values should still work.
@@ -71,12 +73,19 @@ public class IceGameView extends GameView {
 	//@Override
 	public void Update(){
 		//Log.d(mName, "Starting Update step");
-		
+		if(live <= 0){
+			mParent.runOnUiThread(new Runnable() {
+				public void run() {
+					changeView(new ScoreView(mParent.getApplicationContext()));
+				}
+			});
+		}
 		if(mDamageCount >= mMaxDamageCount)
 			mDamageProtection = false;
 		
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
+			++score;
 			mThreatList.add(mGen.Generate(mSnowman.getBounds().position.x));
 			ThreatGenerateCount = ThreatGenerateTime;
 		}
@@ -96,7 +105,7 @@ public class IceGameView extends GameView {
 			mThreatList.remove(i);
 		}
 		
-		mScore.setText("Score: " + score);
+		mLive.setText("Score: " + live);
 		mSnowman.update();
 		
 		if(mSnowman.getState() == Snowman.MOVING){
@@ -138,7 +147,7 @@ public class IceGameView extends GameView {
 		
 		for(Threat o : mThreatList){
 			if(!mDamageProtection && !o.isHit() && mSnowman.getBounds().intersects(o.getBounds())){
-				score--;
+				live--;
 				
 				o.hit();
 				mDamageProtection = true;
@@ -161,7 +170,7 @@ public class IceGameView extends GameView {
 			draw(mSnowman);
 		
 		draw(mGround);
-		draw(mScore);
+		draw(mLive);
 		draw(mSnowBall);
 		
 		for(Threat o : mThreatList){
