@@ -80,6 +80,7 @@ public class IceGameView extends GameView {
 				}
 			});
 		}
+		
 		if(mDamageCount >= mMaxDamageCount)
 			mDamageProtection = false;
 		
