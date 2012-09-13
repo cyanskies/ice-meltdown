@@ -1,6 +1,9 @@
 package au.edu.deakin.ice.meltdown;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 
 import android.R.color;
@@ -74,6 +77,8 @@ public class IceGameView extends GameView {
 	public void Update(){
 		//Log.d(mName, "Starting Update step");
 		if(live <= 0){
+			saveScore();
+			
 			mParent.runOnUiThread(new Runnable() {
 				public void run() {
 					changeView(new ScoreView(mParent.getApplicationContext()));
@@ -133,7 +138,7 @@ public class IceGameView extends GameView {
 		CheckCollisions();
 	}
 	
-	public void CheckCollisions(){
+	private void CheckCollisions(){
 		Rect r;
 		
 		//push the snowman up if he's sinking into the ground
@@ -232,6 +237,29 @@ public class IceGameView extends GameView {
 			mSnowman.setState(Snowman.IDLE);
 		
 		return true;
+	}
+	
+	private void saveScore(){
+		MainActivity main = (MainActivity) mParent;
+		int[] scores = main.getScores();
+		String[] dates = main.getScoreDates();
+		
+		if(scores == null || dates == null)
+			return;
+		
+		int smallest = 0;
+		for(int i = 0; i < scores.length ; ++i)
+			if(scores[i] < scores[smallest])
+				smallest = i;
+		
+		if (score > scores[smallest]){
+			scores[smallest] = score;
+			
+			DateFormat df = new SimpleDateFormat("dd/MM/yy");
+            String formattedDate = df.format(new Date());
+            
+			dates[smallest] = formattedDate;
+		}	
 	}
 	
 }
