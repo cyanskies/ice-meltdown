@@ -111,7 +111,8 @@ public class IceGameView extends GameView {
 			mThreatList.remove(i);
 		}
 		
-		mLive.setText("Score: " + live);
+		mLive.setText("Life: " + live);
+		mScore.setText("Score: " + score);
 		mSnowman.update();
 		
 		if(mSnowman.getState() == Snowman.MOVING){
@@ -177,6 +178,7 @@ public class IceGameView extends GameView {
 		
 		draw(mGround);
 		draw(mLive);
+		draw(mScore);
 		draw(mSnowBall);
 		
 		for(Threat o : mThreatList){

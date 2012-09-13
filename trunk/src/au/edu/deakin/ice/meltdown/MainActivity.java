@@ -93,6 +93,7 @@ public class MainActivity extends Activity{
             
             inBuff.close();
 
+            mScores = new int[5];
             for(count = 0; count < input.length; ++count){
             	try{
             		mScores[count] = Integer.parseInt(input[count]);
@@ -147,9 +148,7 @@ public class MainActivity extends Activity{
     	       /* We have to use the openFileOutput()-method
     	       * the ActivityContext provides, to
     	       * protect your file from others and
-    	       * This is done for security-reasons.
-    	       * We chose MODE_WORLD_READABLE, because
-    	       *  we have nothing to hide in our file */             
+    	       * This is done for security-reasons.*/             
     	       FileOutputStream fOut = openFileOutput("scores", MODE_PRIVATE);
     	       OutputStreamWriter osw = new OutputStreamWriter(fOut); 
 
@@ -173,9 +172,7 @@ public class MainActivity extends Activity{
 	       /* We have to use the openFileOutput()-method
 	       * the ActivityContext provides, to
 	       * protect your file from others and
-	       * This is done for security-reasons.
-	       * We chose MODE_WORLD_READABLE, because
-	       *  we have nothing to hide in our file */             
+	       * This is done for security-reasons.*/             
 	       FileOutputStream fOut = openFileOutput("dates", MODE_PRIVATE);
 	       OutputStreamWriter osw = new OutputStreamWriter(fOut); 
 
