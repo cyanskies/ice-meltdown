@@ -17,33 +17,26 @@ import android.view.SurfaceView;
 // extended with generic drawing functionallity
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
+	/** Class name used for logging */
 	private static final String mName = GameView.class.getSimpleName();
 	
+	/** Queue of bitmaps to draw in display() */
 	private Queue<DrawData> mDrawQueue = new LinkedList<DrawData>();
+	/** Queue of Text objects to draw in display() */
 	private Queue<TextData> mTextQueue = new LinkedList<TextData>();
+	/** Thread used for calling update and draw at regular intervals */
 	private GameThread mThread;
+	/** Android Paint object needed to draw text objects and clear the screen */
 	private final Paint mPaint = new Paint();
+	/** A vector representing the size of the screen, used for calculating motion and object position within the bounds of the screen */
 	protected Vector2 mScreenSize  = new Vector2();
+	/** The parent activity, needed to call the ChangeView and finish() methods */
 	protected Activity mParent;
+	/** Is set to true once the screen is ready to use. */
+	private boolean mScreenInit = false;
 	
-	private boolean mAlive = true;
-	
-	public boolean ready() {
-		return mScreenInit;
-	}
-	
-	public void pause() {
-		mThread.setRunning(false);
-	}
-	
-	public void resume(){
-		mThread.setRunning(true);
-		if(!mThread.isAlive())
-			mThread.start();
-	}
-	
+	/** Cleans up the GameView and tells its GameThread to wind down */
 	public void kill(){
-		mAlive = false;
 		mThread.setRunning(false);
 		
 		while(mThread.isAlive())
@@ -52,15 +45,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		} catch (InterruptedException e) {}
 	}
 	
-	public boolean isAlive(){
-		return mAlive;
-	}
-	
+	/** Let the GameView know which Activity it reports to.
+	 * @param mParent The Activity that created this gameView */
 	public void setParent(Activity mParent) {
 		this.mParent = mParent;
 	}
-	private boolean mScreenInit = false;
 	
+	/** Ask the View if the screen is ready to use.
+	 * @return A bool indicating the ready state of the screen */
 	public boolean ScreenInit(){
 		return mScreenInit;
 	}
@@ -74,6 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		GameObject.setResources(getResources());
 		TextObject.setResources(getResources());
 	}
+	
 	public void clear(Canvas canvas){
 		canvas.drawColor(Color.CYAN);
 	}
@@ -158,6 +151,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	//@Override
+	/** Called when the screen is interacted with
+	 * @param event Holds the information about the interaction
+	 * @return True if the GameView would like to continue receiving information about this touch event
+	 *  False if the GameView wants to cancel the event and ignore it in the future */
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 		Log.d(mName, "Touch at: (" + event.getX() + ", " + event.getY() + ")");
@@ -165,7 +162,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		return super.onTouchEvent(event);
 	}
 	
-	public void Init(){}
+	
 	public void ViewInit() {
 		
 		mThread.setRunning(true);
@@ -173,8 +170,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			mThread.start();
 	}
 	
+	public void Init(){}
+	
 	public void Update() {
 	}
+	
 	public void Draw(Canvas canvas){
 	}
 	
