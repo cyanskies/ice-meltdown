@@ -16,28 +16,32 @@ import android.app.Activity;
 
 public class MainActivity extends Activity{
 	
+	/** Class name used for logging */
 	private static final String mName = MainActivity.class.getSimpleName();
-	//@Override
+	
+	/** Ordered list of dates, each date corresponds to a score in mScores */
 	private String[] mScoreDates;
+	/** Ordered list of scores, each score has an associated date in mScoreDates */
 	private int[] mScores;
+	/** The current GameView, this is kept so that it can be cleaned up properly before moving onto the next view */
 	private GameView mCurrent;
 	
+	/** Getter for the Score Dates.
+	 * @return The array of Score Dates */
 	public String[] getScoreDates(){
 		return mScoreDates;
 	}
 	
+	/** Getter for the Scores.
+	 * @return The array of Scores */
 	public int[] getScores(){
 		return mScores;
 	}
-	
-	public void setScoreDates(String[] d){
-		mScoreDates = d;
-	}
-	
-	public void setScores(int[] i){
-		mScores = i;
-	}
-	
+		
+	/** Method called after activity creation.
+	 *  Loads score data from file and then starts the menu view.
+	 *  @param A record of saved data for this instance of the activity
+	 *  */
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
@@ -49,7 +53,9 @@ public class MainActivity extends Activity{
         changeView(new ScoreView(getApplicationContext()));
     }
 
-   // @Override
+    /** Method called when activity is paused.
+	 *  we don't want to support pausing, so we save our data and kill the app.
+	 *  */
     protected void onPause() {
         super.onPause();
         //mThread.setRunning(false);
@@ -59,21 +65,32 @@ public class MainActivity extends Activity{
         Log.d(mName, "Paused");
     }
     
+    /** Method called when activity destroyed.
+   	 *  We use this chance to save our data for the next time the app is opened.
+   	 *  */
     public void onDestroy(){
     	//save game data
     	saveData();
     }
     
+    /** Sets the current view to the one provided to the method.
+	 *  Cleans up the old view and.
+	 *  @param The new GameView to run
+	 *  */
     public void changeView(GameView view){
     		view.setParent(this);
     		if(mCurrent != null) mCurrent.kill();
     		
-        	setContentView(view);
-        	mCurrent = view;
+    		mCurrent = view;
         	mCurrent.ViewInit();
+        	setContentView(view);
     }
     
     //loading and saving code based on: http://stackoverflow.com/questions/1239026/how-to-create-a-file-in-android
+    
+    /** Loads score data from file.
+   	 *  If loading fails, the score arrays are filled with default values.
+   	 *  */
     private void loadData(){
     	try{
     		
@@ -132,6 +149,7 @@ public class MainActivity extends Activity{
         }
     }
     
+    /** Saves the current score data to file */
     private void saveData(){
     	//first write the ordered scores, one per line
     	
