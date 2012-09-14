@@ -40,7 +40,7 @@ public class MainActivity extends Activity{
 		
 	/** Method called after activity creation.
 	 *  Loads score data from file and then starts the menu view.
-	 *  @param A record of saved data for this instance of the activity
+	 *  @param savedInstanceState A record of saved data for this instance of the activity
 	 *  */
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,7 +75,7 @@ public class MainActivity extends Activity{
     
     /** Sets the current view to the one provided to the method.
 	 *  Cleans up the old view and.
-	 *  @param The new GameView to run
+	 *  @param view The new GameView to run
 	 *  */
     public void changeView(GameView view){
     		view.setParent(this);
