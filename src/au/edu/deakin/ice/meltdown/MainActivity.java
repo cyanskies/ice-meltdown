@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.app.Activity;
 
+/** The main app controller, control's program flow a life cycle */
 public class MainActivity extends Activity{
 	
 	/** Class name used for logging */
