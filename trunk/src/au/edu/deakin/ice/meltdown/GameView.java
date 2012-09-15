@@ -13,8 +13,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-//GameView based on the MainPanel from refference: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html
-// extended with generic drawing functionallity
+/** Base class for game states and views.
+ * 
+ * GameView based on the MainPanel from reference: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html
+ * extended with generic drawing functionality */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 	/** Class name used for logging */
@@ -52,11 +54,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	/** Ask the View if the screen is ready to use.
-	 * @return A bool indicating the ready state of the screen */
+	 * @return A boolean indicating the ready state of the screen */
 	public boolean ScreenInit(){
 		return mScreenInit;
 	}
 	
+	/** Constructor.
+	 *  Creates the game thread and links the Game Object and Text Objects static references to the resource cache.
+	 * @param context The application context is needed to access resources within the apk */
 	public GameView(Context context) {
 		super(context);
 		getHolder().addCallback(this);
@@ -67,19 +72,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		TextObject.setResources(getResources());
 	}
 	
+	/** Draws a solid colour over the whole canvas.
+	 * @param canvas The canvas the clear */
 	public void clear(Canvas canvas){
-		canvas.drawColor(Color.CYAN);
+		clear(canvas, Color.CYAN);
 	}
 	
+	/** Draws a solid colour over the whole canvas.
+	 * @param canvas The canvas the clear
+	 * @param colour The colour to draw over the canvas with */
+	public void clear(Canvas canvas, int colour){
+		canvas.drawColor(colour);
+	}
+	
+	/** Adds a drawdata to the renderqueue.
+	 * @param d The data to add to the queue */
 	public void draw(DrawData d){
 		mDrawQueue.add(d);
 	}
 	
+	/** Adds a textdata to the renderqueue.
+	 * @param d The text data to add to the queue */
 	public void draw(TextData d){
 		mTextQueue.add(d);
 	}
 	
-	
+	/** Adds a game object to the draw queue.
+	 * @param g The object to add to the queue */
 	public void draw(GameObject g){
 		DrawData d = new DrawData();
 		d.b = g.getBitmap();
@@ -87,6 +106,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mDrawQueue.add(d);
 	}
 	
+	/** Adds a text object to the draw queue.
+	 * @param t The object to add to the queue */
 	public void draw(TextObject t){
 		TextData d = new TextData();
 		d.text = t.getText();
@@ -98,10 +119,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mTextQueue.add(d);
 	}
 	
+	/** Draws each object on the renderqueue to the Canvas provided.
+	 * @param canvas The canvas to draw each object to */
 	public void display(Canvas canvas){
-		
-		//int c = mPaint.getColor();
-		
+				
 		while(!mTextQueue.isEmpty()){
 		TextData d = mTextQueue.peek();
 		mPaint.setColor(d.colour);
@@ -109,18 +130,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mTextQueue.remove();
 		}
 		
-		//mPaint.setColor(c);
-		
 		while(!mDrawQueue.isEmpty()){
 			DrawData d = mDrawQueue.peek();
 			canvas.drawBitmap(d.b, d.m, null);
 			mDrawQueue.remove();
-		}
-		
-		
+		}		
 	}
 	
-	//@Override
+	/** Notify GameView that the surface has changed.
+	 *  The view watches this to keep track of the surface size.
+	 * @param holder The parent object that owns the surface
+	 * @param format the colour format of the surface
+	 * @param width The new width of the surface
+	 * @param height The new height of the surface */
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Log.d(mName, "Surface Cha-Cha-Changed!!!");
@@ -129,13 +151,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		mScreenInit = true;
 	}
 	
-	//@Override
+	/** Notify GameView that the surface has been created.
+	 * @param holder The parent object that owns the surface */
 	public void surfaceCreated(SurfaceHolder holder) {
 		Log.d(mName, "Surface Created!!!");
-		
 	}
 	
-	//@Override
+	/** Notify GameView that the surface has been destroy.
+	 * @param holder The parent object that owns the surface */
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.d(mName, "Surface Destroyed!!!");
 		boolean retry = true;
@@ -162,7 +185,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		return super.onTouchEvent(event);
 	}
 	
-	
+	/** Called when the surface has be created.
+	 * Starts the game threads main loop */
 	public void ViewInit() {
 		
 		mThread.setRunning(true);
@@ -170,14 +194,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 			mThread.start();
 	}
 	
+	/** Init exists to allow derived classes to set up their game data. */
 	public void Init(){}
 	
+	/** Called each game tick to let a derived class update it's game logic.*/
 	public void Update() {
 	}
 	
+	/** Derived classes use this function to draw all of their graphics.
+	 * @param canvas The canvas to draw to */
 	public void Draw(Canvas canvas){
 	}
 	
+	/** Change the view being used my MainActivity to the one provided.
+	 * @param view The new view to control the screen */
 	public void changeView(GameView view){
 		MainActivity main = (MainActivity) mParent;
 		main.changeView(view);

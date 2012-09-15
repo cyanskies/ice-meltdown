@@ -4,27 +4,43 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-//GameView based on the MainPanel from reference: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html
+/**GameThread based on the tutorial from reference: http://www.javacodegeeks.com/2011/07/android-game-development-basic-game_05.html
+ */
 public class GameThread extends Thread {
-
+	
+	/** Class name used for logging */
 	private static final String mName = GameThread.class.getSimpleName();
+	
+	/** Indicates if the thread is still alive */
 	private boolean running;
+	/** The object that holds the surface, this is needed so we can retrieve the canvas */
 	private SurfaceHolder mSurfaceHolder;
+	/** The gameView that this thread is attached to */
 	private GameView mGame;
 	
+	/** The max FPS for the thread to draw at */
 	private static final int MAX_FPS = 50;
+	
+	/** The frame time to use to maintain the correct FPS */
 	private static final int FRAME_TIME = 1000 / MAX_FPS;
 	
+	/** Constructor.
+	 *  @param s The surface holder to use for this thread
+	 *  @parem v The GameView that this thread will update and draw */
 	public GameThread(SurfaceHolder s, GameView v){
 		super();
 		mSurfaceHolder = s;
 		mGame = v;
 	}
-	 public void setRunning(boolean running) {
+	
+	/** Sets the running state of the thread
+	 *  @param running True to continue running, false to end the thread
+	 *  */
+	public void setRunning(boolean running) {
 		 this.running = running;
-	 }
+	}
 	 
-	 @Override
+	/** Holds this states game loop.*/
 	 public void run() {
 		 Canvas canvas;
 		
