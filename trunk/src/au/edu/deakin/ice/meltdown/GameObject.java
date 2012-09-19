@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.util.Log;
 
-/** A game entity that consists of a bitmap than can be moved and collided with. */
+/** A game entity that consists of a bitmap that can be moved and collided with. */
 public class GameObject{
 
 	/** The resource pointer required to load bitmaps. */
@@ -108,7 +108,7 @@ public class GameObject{
 		mM.setTranslate(x, y);
 	}
 	
-	/** Moves the object by the amount passed as parameter.
+	/** Sets the objects translation to the values passed as parameters.
 	 *  @param v The vector which represent the objects new position */
 	public final void setPosition(Vector2 v){
 		setPosition(v.x, v.y);

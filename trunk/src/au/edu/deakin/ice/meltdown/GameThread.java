@@ -40,7 +40,9 @@ public class GameThread extends Thread {
 		 this.running = running;
 	}
 	 
-	/** Holds this states game loop.*/
+	/** Holds this states game loop.
+	 * Responsible for calling Init() on the state,
+	 * and for calling update and draw at regular intervals.*/
 	 public void run() {
 		 Canvas canvas;
 		
