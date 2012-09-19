@@ -1,6 +1,3 @@
-/**
- * 
- */
 package au.edu.deakin.ice.meltdown.entities;
 
 import android.graphics.Bitmap;

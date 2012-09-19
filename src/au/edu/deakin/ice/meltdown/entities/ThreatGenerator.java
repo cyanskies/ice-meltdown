@@ -4,13 +4,26 @@ import au.edu.deakin.ice.meltdown.R;
 
 public class ThreatGenerator {
 
+	/** Float values indicating the positions to spawn ground and flying objects.*/
 	private float screenEdgeX, Ground, Flying;
+	/** number of threats created so far*/
 	private int threatCount = 0;
 	
+	/** Constructor
+	 * 
+	 * @param x The horizontal size of the screen
+	 * @param g The height of the ground object
+	 * @param f The height to create flying objects
+	 */
 	public ThreatGenerator(float x, float g, float f) {
 		screenEdgeX = x; Ground = g; Flying = f;
 	}
 	
+	/** Generates a new threat based on the number of threats created so far
+	 * 
+	 * @param playerX The x position of the player, used for spawning RockFalls
+	 * @return A new threat
+	 */
 	public Threat Generate(float playerX) {
 		++threatCount;
 		Threat out;
