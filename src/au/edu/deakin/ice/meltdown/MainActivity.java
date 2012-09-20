@@ -72,6 +72,8 @@ public class MainActivity extends Activity{
     public void onDestroy(){
     	//save game data
     	saveData();
+    	
+    	super.onDestroy();
     }
     
     /** Sets the current view to the one provided to the method.

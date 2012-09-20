@@ -51,6 +51,9 @@ public class ScoreView extends GameView {
 			mDates[i] = new TextObject(dates[i], color.primary_text_light);
 			mDates[i].setPosition(scorex * 3, scorey * i + scoreStep);
 		}
+		
+		int soundid = mSound.load(R.raw.skisound);
+		mSound.play(soundid, true);
 	}
 					
 	//@Override
