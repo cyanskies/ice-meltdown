@@ -14,6 +14,7 @@ public class ScoreView extends GameView {
 	private GameObject mPlay, mExit;
 	
 	private TextObject[] mScores, mDates;
+	private TextObject mScoreTitle, mDateTitle;
 	
 	public ScoreView(Context context) {
 		super(context);
@@ -39,21 +40,24 @@ public class ScoreView extends GameView {
 		int[] scores = main.getScores();
 		String[] dates = main.getScoreDates();
 		
+		mScoreTitle = new TextObject("Scores:", color.primary_text_light);
+		mDateTitle = new TextObject("Date earned:", color.primary_text_light);
+		
+		mScoreTitle.setPosition(scorex * 2, (scorey / 2) + scoreStep);
+		mDateTitle.setPosition(scorex * 3, (scorey / 2) + scoreStep);
+		
 		mScores = new TextObject[5];
 		mDates = new TextObject[5];
 		
 		for(int i = 0; i < scores.length; ++i){
 			mScores[i] = new TextObject(Integer.toString(scores[i]), color.primary_text_light);
-			mScores[i].setPosition(scorex * 2, scorey * i + scoreStep);
+			mScores[i].setPosition(scorex * 2, scorey + scorey * i + scoreStep);
 		}
 		
 		for(int i = 0; i < dates.length; ++i){
 			mDates[i] = new TextObject(dates[i], color.primary_text_light);
-			mDates[i].setPosition(scorex * 3, scorey * i + scoreStep);
+			mDates[i].setPosition(scorex * 3, scorey + scorey * i + scoreStep);
 		}
-		
-		int soundid = mSound.load(R.raw.skisound);
-		mSound.play(soundid, true);
 	}
 					
 	//@Override
@@ -62,6 +66,9 @@ public class ScoreView extends GameView {
 		
 		draw(mPlay);
 		draw(mExit);
+		
+		draw(mScoreTitle);
+		draw(mDateTitle);
 		
 		for(TextObject o : mScores)
 			draw(o);
