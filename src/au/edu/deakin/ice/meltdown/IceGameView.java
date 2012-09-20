@@ -45,6 +45,8 @@ public class IceGameView extends GameView {
 	private float Vert1, Vert2, Vert3;
 	private int Vert_Target = 2; //these are for moving forwards and backwards
 	
+	private int skisound, skiducksound, skijump; //, skijump2;
+	
 	public IceGameView(Context context) {
 		super(context);
 		Log.d(mName, "Creating gameview");
@@ -68,9 +70,21 @@ public class IceGameView extends GameView {
 		mLive.setPosition(50.f,  50.f);		
 		mScore.setPosition(150.f,  50.f);
 		//the values passed here control the positions the threats are spawned at, these can be tweeked as needed.
-		//Ive made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
+		//I've made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
 		// since he's a little short) these values should still work.
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - mSnowman.getBounds().size.y + (mSnowman.getBounds().size.y / 4));
+	
+		skisound = mSound.load(R.raw.skisound);
+		skiducksound = mSound.load(R.raw.skisound2);
+		skijump = mSound.load(R.raw.skijump);
+		//not currently used for anything
+		//skijump2 = mSound.load(R.raw.skijump2);
+		
+		mSound.play(skisound, true);
+		mSound.play(skiducksound, true);
+		
+		//pause the duck ski sound, so we can resume it later
+		mSound.pause(skiducksound);
 	}
 	
 	//@Override
@@ -149,7 +163,10 @@ public class IceGameView extends GameView {
 			
 			//if we've hit the ground then we should return to the idle state
 			if(mSnowman.getState() == Snowman.FALLING)
+			{
+				mSound.resume(skisound);
 				mSnowman.setState(Snowman.IDLE); // 2 == IDLE
+			}
 		}
 		
 		for(Threat o : mThreatList){
@@ -197,6 +214,8 @@ public class IceGameView extends GameView {
 			if(mSnowman.IsIdle()){
 				
 				float ySize = mSnowman.getBounds().size.y;
+				mSound.pause(skisound);
+				mSound.resume(skiducksound);
 				mSnowman.setState(Snowman.DUCK);
 				mSnowman.move(0, ySize - mSnowman.getBounds().size.y);
 			}
@@ -208,15 +227,18 @@ public class IceGameView extends GameView {
 			Vector2 delta = new Vector2(event.getX(), event.getY());
 			delta.sub(mTouchPos);
 
+			mSound.pause(skiducksound);
 			float value = Math.abs(delta.x) + Math.abs(delta.y);
 			Log.d(mName, "Pointer move value (" + value + ")");
 			if(value > 30){
 				if(mSnowman.getState() == Snowman.DUCK && Math.abs(delta.y) > Math.abs(delta.x))
 				{
+					mSound.play(skijump, false);
 					mSnowman.Jump(20);
 					return false;
 				}
 				else {
+					mSound.resume(skisound);
 					if(delta.x < 0 && Vert_Target > 0) { //Something is wrong in this code, but I'm not sure what?
 						Vert_Target--;
 						mSnowman.setMoving_Dir(false);
