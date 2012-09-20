@@ -25,13 +25,25 @@ public class SoundManager {
 	private HashMap<Integer, Integer> soundsMap;
 	/** Number of sounds loaded */
 	private int soundCount;
-	/** App context used to laod sounds */
+	/** App context used to laad sounds */
 	private static Context context;
+	/** whether to play any sounds or not */
+	private static boolean enabled = true;
 	
-	/** Pass app context so that soundmaanger can load sounds from it
+	/** Pass app context so that soundmanager can load sounds from it
 	 * @param c The context to store */
 	public static void setContext(Context c){
 		context = c;
+	}
+	
+	/** enable all sound managers, they will  play sounds normally*/
+	public static void enable(){
+		enabled = true;
+	}
+	
+	/** disable all sound managers, they will now refuse to start playing any sounds*/
+	public static void disable(){
+		enabled = false;
 	}
 	
 	/** Constructor */
@@ -70,7 +82,8 @@ public class SoundManager {
 		//loop until it starts playing successfully
 		//this can be needed if the sound starts playing too soon after being loaded
 		//we're really waiting for the filesystem to properly cache the sound file
-		while(mSounds.play(soundsMap.get(soundid), 1, 1, 1, looping, 1) == 0);
+		if(enabled)
+			while(mSounds.play(soundsMap.get(soundid), 1, 1, 1, looping, 1) == 0);
 	}
 	
 	/** Pause a sound 
@@ -81,7 +94,8 @@ public class SoundManager {
 	/** Resume a sound 
 	 * @param sound the sound to resume*/
 	public void resume(int sound){
-		mSounds.resume(sound);
+		if(enabled)
+			mSounds.resume(sound);
 	}
 	/** stop playing a sound 
 	 * @param sound the sound to stop*/
