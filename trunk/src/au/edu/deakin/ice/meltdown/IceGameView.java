@@ -50,6 +50,10 @@ public class IceGameView extends GameView {
 	public IceGameView(Context context) {
 		super(context);
 		Log.d(mName, "Creating gameview");
+		
+		skisound = mSound.load(R.raw.skisound);
+		skiducksound = mSound.load(R.raw.skisound2);
+		skijump = mSound.load(R.raw.skijump);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -69,14 +73,10 @@ public class IceGameView extends GameView {
 		mSnowman.setPosition(Vert2, mHorizontal - mSnowman.getBounds().size.y);
 		mLive.setPosition(50.f,  50.f);		
 		mScore.setPosition(150.f,  50.f);
-		//the values passed here control the positions the threats are spawned at, these can be tweeked as needed.
+		//the values passed here control the positions the threats are spawned at, these can be tweaked as needed.
 		//I've made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
 		// since he's a little short) these values should still work.
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - mSnowman.getBounds().size.y + (mSnowman.getBounds().size.y / 4));
-	
-		skisound = mSound.load(R.raw.skisound);
-		skiducksound = mSound.load(R.raw.skisound2);
-		skijump = mSound.load(R.raw.skijump);
 		//not currently used for anything
 		//skijump2 = mSound.load(R.raw.skijump2);
 		
