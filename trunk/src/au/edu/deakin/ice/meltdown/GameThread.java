@@ -97,7 +97,7 @@ public class GameThread extends Thread {
 		        	 mSurfaceHolder.unlockCanvasAndPost(canvas);
 		         }
 		     }   // end finally
-		 }
+		 } //while
 	 }//run()
 	 
 }

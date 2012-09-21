@@ -44,8 +44,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public final void kill(){
 		mThread.setRunning(false);
 		
-		mSound.OnDestroy();
+		if(mSound != null)
+			mSound.clear();
+		
 		mSound = null;
+		
 		while(mThread.isAlive())
 		try {
 			mThread.join();
@@ -170,16 +173,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	 * @param holder The parent object that owns the surface */
 	public final void surfaceDestroyed(SurfaceHolder holder) {
 		Log.d(mName, "Surface Destroyed!!!");
-		boolean retry = true;
-		while(retry) {
-			try {
-				mThread.join();
-				retry = false;
-			}
-			catch (InterruptedException e) {
-				//try again
-			}
-		}
+		kill();
 	}
 	
 	//@Override
@@ -218,6 +212,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	 * @param view The new view to control the screen */
 	public final void changeView(GameView view){
 		MainActivity main = (MainActivity) mParent;
+		
+		kill();
 		main.changeView(view);
     }
 }

@@ -61,7 +61,7 @@ public class MainActivity extends Activity{
         super.onPause();
         //mThread.setRunning(false);
         saveData();
-        
+        mCurrent.kill();
         finish();
         Log.d(mName, "Paused");
     }

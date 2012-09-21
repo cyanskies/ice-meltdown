@@ -19,7 +19,10 @@ public class IceGameView extends GameView {
 
 	private static final String mName = IceGameView.class.getSimpleName();
 	private final Snowman mSnowman = new Snowman(R.drawable.ic_launcher);
-	private final GameObject mGround = new GameObject(R.drawable.ground);
+	private final GameObject mGround = new GameObject(R.drawable.ground),
+			mGround2 = new GameObject(R.drawable.ground2),
+			mGround3 = new GameObject(R.drawable.ground2);
+	
 	private final TextObject mLive = new TextObject("", color.primary_text_light);
 	private final TextObject mScore = new TextObject("", color.primary_text_light);
 	private final GameObject mSnowBall = new GameObject(R.drawable.snowball);
@@ -27,7 +30,7 @@ public class IceGameView extends GameView {
 	private final LinkedList<Threat> mThreatList = new LinkedList<Threat>();
 	private ThreatGenerator mGen;
 
-	private final int ThreatGenerateTime = 60; 
+	private static final int ThreatGenerateTime = 100; 
 	private int ThreatGenerateCount = ThreatGenerateTime;
 	private int live = 5;
 	private int score = 0;
@@ -42,6 +45,7 @@ public class IceGameView extends GameView {
 	
 	private float mHorizontal = 0;
 	
+	private static final float mGroundMoveSpeed = 5;
 	private float Vert1, Vert2, Vert3;
 	private int Vert_Target = 2; //these are for moving forwards and backwards
 	
@@ -61,7 +65,12 @@ public class IceGameView extends GameView {
 	//@Override
 	public void Init() {
 		mHorizontal = mScreenSize.y - 50;
-		mGround.setPosition(-5.f, mHorizontal);
+		//this one is for gameplay logic
+		mGround.setPosition(0.f, mHorizontal);
+		
+		//these two are for visuals
+		mGround2.setPosition(0.f, mHorizontal);
+		mGround3.setPosition(mGround.getBounds().position.x + mGround.getBounds().size.x, mHorizontal);
 		mSnowBall.setPosition(0.f, mHorizontal - mSnowBall.getBounds().size.y);
 		
 		Vert2 = mScreenSize.x / 2;
@@ -76,7 +85,7 @@ public class IceGameView extends GameView {
 		//the values passed here control the positions the threats are spawned at, these can be tweaked as needed.
 		//I've made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
 		// since he's a little short) these values should still work.
-		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - mSnowman.getBounds().size.y + (mSnowman.getBounds().size.y / 4));
+		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - mSnowman.getBounds().size.y + (mSnowman.getBounds().size.y / 6));
 		//not currently used for anything
 		//skijump2 = mSound.load(R.raw.skijump2);
 		
@@ -90,6 +99,7 @@ public class IceGameView extends GameView {
 	//@Override
 	public void Update(){
 		//Log.d(mName, "Starting Update step");
+		//check life
 		if(live <= 0){
 			saveScore();
 			
@@ -100,9 +110,25 @@ public class IceGameView extends GameView {
 			});
 		}
 		
+		//move ground
+		mGround2.move(-mGroundMoveSpeed, 0);
+		mGround3.move(-mGroundMoveSpeed, 0);
+		
+		float g1 = mGround2.getBounds().position.x + mGround.getBounds().size.x;
+		float g2 = mGround3.getBounds().position.x + mGround2.getBounds().size.x;
+		
+		if(g1 < 0)
+			mGround2.setPosition(g2, mHorizontal);
+		
+		if(g2 < 0)
+			mGround3.setPosition(g1, mHorizontal);
+		
+		//check damage protection		
 		if(mDamageCount >= mMaxDamageCount)
 			mDamageProtection = false;
 		
+		
+		//generate new threats
 		--ThreatGenerateCount;
 		if(ThreatGenerateCount <= 0){
 			++score;
@@ -110,6 +136,8 @@ public class IceGameView extends GameView {
 			ThreatGenerateCount = ThreatGenerateTime;
 		}
 		
+		
+		//remove dead threats
 		ArrayList<Integer> removeList = new ArrayList<Integer>();
 		
 		for(GameObject o : mThreatList){
@@ -125,10 +153,14 @@ public class IceGameView extends GameView {
 			mThreatList.remove(i);
 		}
 		
+		
+		//update UI
 		mLive.setText("Life: " + live);
 		mScore.setText("Score: " + score);
 		mSnowman.update();
 		
+		
+		//do move action if snowman is moving
 		if(mSnowman.getState() == Snowman.MOVING){
 			float target = 0;
 			
@@ -159,6 +191,7 @@ public class IceGameView extends GameView {
 		//push the snowman up if he's sinking into the ground
 		if(mSnowman.getBounds().intersects(mGround.getBounds())){
 			r = mSnowman.getBounds().GetOverlapRect(mGround.getBounds());
+			
 			mSnowman.move(0,  -r.size.y);
 			
 			//if we've hit the ground then we should return to the idle state
@@ -192,8 +225,7 @@ public class IceGameView extends GameView {
 			draw(mSnowman);
 		else if(!mDamageProtection)
 			draw(mSnowman);
-		
-		draw(mGround);
+
 		draw(mLive);
 		draw(mScore);
 		draw(mSnowBall);
@@ -201,6 +233,9 @@ public class IceGameView extends GameView {
 		for(Threat o : mThreatList){
 			draw(o);
 		}
+		
+		draw(mGround2);
+		draw(mGround3);
 		
 		display(canvas);
 	}
