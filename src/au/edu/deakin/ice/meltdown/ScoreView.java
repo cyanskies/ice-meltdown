@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 
 
 //draws the five highest personal scores, and the dates on which they were achieved.
-//alsi includes a button back to the main menu(or maybe touching anywhere sends you back to the menu?
+//also includes a button back to the main menu(or maybe touching anywhere sends you back to the menu?
 public class ScoreView extends GameView {
 	private static final String mName = ScoreView.class.getSimpleName();
 	private GameObject mPlay, mExit;

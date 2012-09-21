@@ -73,6 +73,8 @@ public class MainActivity extends Activity{
     	//save game data
     	saveData();
     	
+    	mCurrent.kill();
+    	
     	super.onDestroy();
     }
     

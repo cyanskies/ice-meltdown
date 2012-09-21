@@ -49,7 +49,7 @@ public class SoundManager {
 	/** Constructor */
 	@SuppressLint("UseSparseArrays") //we need hash maps so that we can search and shut down any dangling sounds in OnDestroy
 	public SoundManager() {
-		mSounds = new SoundPool(8, AudioManager.USE_DEFAULT_STREAM_TYPE, 100);
+		mSounds = new SoundPool(4, AudioManager.STREAM_MUSIC , 0);
 		soundsMap = new HashMap<Integer, Integer>();
 		soundCount = 0;
 	}
@@ -71,19 +71,25 @@ public class SoundManager {
 	 * @param soundid the sound to play
 	 * @param loop True to loop the sound false to play only once*/
 	public void play(int soundid, boolean loop){
-		int looping = 0;
+		if(!soundsMap.containsKey(soundid))
+			return;
 		
+		int looping = 0;
 		if(loop)
 			looping = -1;
 		
 		if(soundid < 0 || soundid > soundCount)
 			return; //sound wasn't loaded correctly or a junk id is being passed.
 			
-		//loop until it starts playing successfully
-		//this can be needed if the sound starts playing too soon after being loaded
-		//we're really waiting for the filesystem to properly cache the sound file
+		//only play sound if sounds are enabled.
+		//if the play fails, then unload the sound
+		//and remove it from the sound map
 		if(enabled)
-			while(mSounds.play(soundsMap.get(soundid), 1, 1, 1, looping, 1) == 0);
+			if(mSounds.play(soundsMap.get(soundid), 1, 1, 1, looping, 1) == 0){
+				mSounds.unload(soundid);
+				soundsMap.remove(soundid);
+			}
+				
 	}
 	
 	/** Pause a sound 
