@@ -86,7 +86,7 @@ public class SoundManager {
 		//and remove it from the sound map
 		if(enabled)
 			if(mSounds.play(soundsMap.get(soundid), 1, 1, 1, looping, 1) == 0){
-				mSounds.unload(soundid);
+				//mSounds.unload(soundid);
 				soundsMap.remove(soundid);
 			}
 				
@@ -108,11 +108,21 @@ public class SoundManager {
 	public void stop(int sound){
 		mSounds.stop(sound);
 	}
-	/** Cleanup and stop any sounds */
-	public void OnDestroy(){
+	
+	/**stop playing any sounds and unload all sounds objects*/
+	public void clear(){
 		for (int value :  soundsMap.values()) {
 		    mSounds.stop(value);
 		    mSounds.unload(value);
 		}
+		
+		soundsMap.clear();
+	}
+	/** Cleanup and stop any sounds */
+	public void finalize(){
+		clear();
+		
+		mSounds.release();
+		
 	}
 }

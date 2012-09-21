@@ -15,14 +15,16 @@ public final class R {
         public static final int button_exit=0x7f020001;
         public static final int button_play=0x7f020002;
         public static final int ground=0x7f020003;
-        public static final int ic_action_search=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int ravine=0x7f020006;
-        public static final int rocks=0x7f020007;
-        public static final int snowball=0x7f020008;
-        public static final int snowman_duck=0x7f020009;
-        public static final int snowman_idle=0x7f02000a;
-        public static final int stump=0x7f02000b;
+        public static final int ground2=0x7f020004;
+        public static final int ic_action_search=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int ravine=0x7f020007;
+        public static final int rocks=0x7f020008;
+        public static final int snowball=0x7f020009;
+        public static final int snowman_duck=0x7f02000a;
+        public static final int snowman_idle=0x7f02000b;
+        public static final int snowman_jump=0x7f02000c;
+        public static final int stump=0x7f02000d;
     }
     public static final class raw {
         public static final int skijump=0x7f030000;

@@ -13,6 +13,7 @@ public class Snowman extends GameObject {
 	
 	private Bitmap mIdle;
 	private Bitmap mDuck;
+	private Bitmap mJump;
 	
 	private int mState = 2;
 	
@@ -50,6 +51,7 @@ public class Snowman extends GameObject {
 		
 		mIdle = BitmapFactory.decodeResource(mR, R.drawable.snowman_idle);
 		mDuck = BitmapFactory.decodeResource(mR, R.drawable.snowman_duck);
+		mJump = BitmapFactory.decodeResource(mR, R.drawable.snowman_jump);
 		
 		mState = IDLE;
 		mB = mIdle;
@@ -90,14 +92,14 @@ public class Snowman extends GameObject {
 	
 	public void Jump(int time){
 		mState = JUMP;
-		mB = mIdle;
+		mB = mJump;
 		mJumpTime = time;
 	}
 
 	public boolean isMoving_Right() {
 		return mMoving_Right;
 	}
-
+	
 	public void setMoving_Dir(boolean mMoving_Right) {
 		this.mMoving_Right = mMoving_Right;
 	}
