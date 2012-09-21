@@ -17,17 +17,26 @@ import au.edu.deakin.ice.meltdown.entities.ThreatGenerator;
 
 public class IceGameView extends GameView {
 
+	/** class name for logging*/
 	private static final String mName = IceGameView.class.getSimpleName();
+	/** snowman object, represents player character handles player state and drawing of the player character*/
 	private final Snowman mSnowman = new Snowman(R.drawable.ic_launcher);
+	
+	/** ground sprites, ground1 is for gameplay logic, ground 2 and 3 are for animating the moving snow*/
 	private final GameObject mGround = new GameObject(R.drawable.ground),
 			mGround2 = new GameObject(R.drawable.ground2),
 			mGround3 = new GameObject(R.drawable.ground2);
 	
+	/** text object for displaying life*/
 	private final TextObject mLive = new TextObject("", color.primary_text_light);
+	/** text object for displaying score*/
 	private final TextObject mScore = new TextObject("", color.primary_text_light);
+	/** Sprite to represent the snowball*/
 	private final GameObject mSnowBall = new GameObject(R.drawable.snowball);
 	
+	/** list of current threat objects*/
 	private final LinkedList<Threat> mThreatList = new LinkedList<Threat>();
+	/** generator for spawning new threats*/
 	private ThreatGenerator mGen;
 
 	private static final int ThreatGenerateTime = 100; 
@@ -202,6 +211,7 @@ public class IceGameView extends GameView {
 			}
 		}
 		
+		//test for hits against each of the threats
 		for(Threat o : mThreatList){
 			if(!mDamageProtection && !o.isHit() && mSnowman.getBounds().intersects(o.getBounds())){
 				live--;
@@ -274,7 +284,7 @@ public class IceGameView extends GameView {
 				}
 				else {
 					mSound.resume(skisound);
-					if(delta.x < 0 && Vert_Target > 0) { //Something is wrong in this code, but I'm not sure what?
+					if(delta.x < 0 && Vert_Target > 1) { //Something is wrong in this code, but I'm not sure what?
 						Vert_Target--;
 						mSnowman.setMoving_Dir(false);
 						mSnowman.setState(Snowman.MOVING);
