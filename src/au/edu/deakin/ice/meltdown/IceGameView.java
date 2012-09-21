@@ -79,7 +79,7 @@ public class IceGameView extends GameView {
 		
 		//these two are for visuals
 		mGround2.setPosition(0.f, mHorizontal);
-		mGround3.setPosition(mGround.getBounds().position.x + mGround.getBounds().size.x, mHorizontal);
+		mGround3.setPosition(mGround2.getBounds().position.x + mGround2.getBounds().size.x, mHorizontal);
 		mSnowBall.setPosition(0.f, mHorizontal - mSnowBall.getBounds().size.y);
 		
 		Vert2 = mScreenSize.x / 2;
@@ -123,8 +123,8 @@ public class IceGameView extends GameView {
 		mGround2.move(-mGroundMoveSpeed, 0);
 		mGround3.move(-mGroundMoveSpeed, 0);
 		
-		float g1 = mGround2.getBounds().position.x + mGround.getBounds().size.x;
-		float g2 = mGround3.getBounds().position.x + mGround2.getBounds().size.x;
+		float g1 = mGround2.getBounds().position.x + mGround2.getBounds().size.x;
+		float g2 = mGround3.getBounds().position.x + mGround3.getBounds().size.x;
 		
 		if(g1 < 0)
 			mGround2.setPosition(g2, mHorizontal);
