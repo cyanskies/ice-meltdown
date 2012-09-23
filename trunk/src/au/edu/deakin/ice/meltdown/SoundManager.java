@@ -119,7 +119,7 @@ public class SoundManager {
 		soundsMap.clear();
 	}
 	/** Cleanup and stop any sounds */
-	public void finalize(){
+	public void kill(){
 		clear();
 		
 		mSounds.release();
