@@ -46,6 +46,14 @@ public class SoundManager {
 		enabled = false;
 	}
 	
+	/** test if the sounds are enabled
+	 * 
+	 * @return enabled
+	 */
+	public static boolean isEnabled(){
+		return enabled;
+	}
+	
 	/** Constructor */
 	@SuppressLint("UseSparseArrays") //we need hash maps so that we can search and shut down any dangling sounds in OnDestroy
 	public SoundManager() {

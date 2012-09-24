@@ -10,6 +10,7 @@ package au.edu.deakin.ice.meltdown.entities;
  */
 public class RockFall extends Threat {
 
+	/** The speed at which the focks fall*/
 	private static final int mFallSpeed = 3;
 	
 	/** Constructor
