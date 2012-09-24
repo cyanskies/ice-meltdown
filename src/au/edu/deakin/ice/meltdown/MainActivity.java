@@ -142,6 +142,20 @@ public class MainActivity extends Activity{
 
             mScoreDates = input;
             
+          //and now the sounds
+            fIn = openFileInput("sound");
+            isr = new InputStreamReader(fIn);
+            inBuff = new BufferedReader(isr);
+            
+            inputLine = inBuff.readLine();
+            inBuff.close();
+            if(inputLine != null)
+            	SoundManager.enable();
+            else
+            	SoundManager.disable();
+
+            mScoreDates = input;
+            
     	} catch (IOException ioe) {
             DateFormat df = new SimpleDateFormat("dd/MM/yy");
             String formattedDate = df.format(new Date());
@@ -151,6 +165,8 @@ public class MainActivity extends Activity{
  
             int[] Scores = {0, 0, 0, 0, 0};
             mScores = Scores;
+            
+            SoundManager.enable();
         }
     }
     
@@ -208,6 +224,26 @@ public class MainActivity extends Activity{
 	       osw.close();
  	}catch (IOException ioe) 
      {ioe.printStackTrace();}
-    }
+    
+  //now write out the sound
+	try { 
+       /* We have to use the openFileOutput()-method
+       * the ActivityContext provides, to
+       * protect your file from others and
+       * This is done for security-reasons.*/             
+       FileOutputStream fOut = openFileOutput("sound", MODE_PRIVATE);
+       OutputStreamWriter osw = new OutputStreamWriter(fOut); 
+
+       // Write the string to the file
+       if(SoundManager.isEnabled())
+    	   osw.write("a");
+
+       /* ensure that everything is
+        * really written out and close */
+       osw.flush();
+       osw.close();
+	}catch (IOException ioe) 
+ {ioe.printStackTrace();}
+}
 }
 

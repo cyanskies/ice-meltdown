@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 
-//draws the five highest personal scores, and the dates on which they were achieved.
-//also includes a button back to the main menu(or maybe touching anywhere sends you back to the menu?
+/**draws the five highest personal scores, and the dates on which they were achieved. */
 public class ScoreView extends GameView {
 	private static final String mName = ScoreView.class.getSimpleName();
-	private GameObject mPlay, mExit;
 	
+	/** buttons for the menu*/
+	private GameObject mPlay, mExit, mSoundOn, mSoundOff;
+	
+	private boolean sound = SoundManager.isEnabled();
 	private TextObject[] mScores, mDates;
 	private TextObject mScoreTitle, mDateTitle;
 	
@@ -26,11 +28,17 @@ public class ScoreView extends GameView {
 		mPlay = new GameObject(R.drawable.button_play);
 		mExit = new GameObject(R.drawable.button_exit);	
 		
+		mSoundOn = new GameObject(R.drawable.button_sound_on);	
+		mSoundOff = new GameObject(R.drawable.button_sound_off);	
+		
 		int buttonx = (int) (mScreenSize.x / 10);
 		int buttonHeight = (int) mPlay.getBounds().size.y;
 		
 		mPlay.setPosition(new Vector2(buttonx, buttonHeight));
-		mExit.setPosition(new Vector2(buttonx, buttonHeight * 3));
+		mExit.setPosition(new Vector2(buttonx, buttonHeight * 4));
+		
+		mSoundOn.setPosition(new Vector2(buttonx, buttonHeight * 2));
+		mSoundOff.setPosition(new Vector2(buttonx, buttonHeight * 2));
 		
 		int scorex = (int) (mScreenSize.x / 4);
 		int scorey = (int) (mScreenSize.y / 6);
@@ -67,6 +75,11 @@ public class ScoreView extends GameView {
 		draw(mPlay);
 		draw(mExit);
 		
+		if(sound)
+			draw(mSoundOn);
+		else
+			draw(mSoundOff);
+		
 		draw(mScoreTitle);
 		draw(mDateTitle);
 		
@@ -90,6 +103,14 @@ public class ScoreView extends GameView {
 			else if(mExit.getBounds().contains(delta)){
 				main.finish();
 				
+			}
+			else if(mSoundOn.getBounds().contains(delta)){
+				if(sound)
+					SoundManager.disable();
+				else
+					SoundManager.enable();
+				
+				sound = !sound;
 			}
 		}
 		
