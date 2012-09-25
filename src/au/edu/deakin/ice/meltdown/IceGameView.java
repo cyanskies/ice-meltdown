@@ -39,25 +39,42 @@ public class IceGameView extends GameView {
 	/** generator for spawning new threats*/
 	private ThreatGenerator mGen;
 
+	/** number of game ticks between new threats*/
 	private static final int ThreatGenerateTime = 100; 
+	
+	/**counter to keep track of game ticks*/
 	private int ThreatGenerateCount = ThreatGenerateTime;
+	
+	/** number of hits the snowman can take*/
 	private int live = 5;
+	
+	/** score*/
 	private int score = 0;
 	
+	/** damage protection is recorded here*/
 	private boolean mDamageProtection = false;
+	
+	/** the number of ticks to protect against damage for*/
 	private static final int mMaxDamageCount = 20;
+	/** then umber of ticks that have been protected so far*/
 	private int mDamageCount;
 	
 	//private final int TOUCHMAX = 10;
 	//private int mTouchCount = 0;
+	/**the position of the first touch, in any gesture*/
 	private Vector2 mTouchPos;
 	
+	/** the horizontal height of the ground*/
 	private float mHorizontal = 0;
 	
+	/** the speed the ground sprite animates at*/
 	private static final float mGroundMoveSpeed = 5;
+	/** the move positions*/
 	private float Vert1, Vert2, Vert3;
+	/** the current move target*/
 	private int Vert_Target = 2; //these are for moving forwards and backwards
 	
+	/** sound handles for playing sounds*/
 	private int skisound, skiducksound, skijump; //, skijump2;
 	
 	public IceGameView(Context context) {

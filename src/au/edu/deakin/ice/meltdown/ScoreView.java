@@ -14,16 +14,25 @@ public class ScoreView extends GameView {
 	/** buttons for the menu*/
 	private GameObject mPlay, mExit, mSoundOn, mSoundOff;
 	
+	/** record the status of the soundmanager*/
 	private boolean sound = SoundManager.isEnabled();
+	
+	/** text objects for displaying the scores and dates*/
 	private TextObject[] mScores, mDates;
+	/** text objects for displaying titles for scores and dates*/
 	private TextObject mScoreTitle, mDateTitle;
 	
+	/**constructor
+	 * 
+	 * @param context app context
+	 */
 	public ScoreView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 	}
 
 	//@Override
+	/** Init sets up all the object values*/
 	public void Init() {
 		mPlay = new GameObject(R.drawable.button_play);
 		mExit = new GameObject(R.drawable.button_exit);	
@@ -69,6 +78,7 @@ public class ScoreView extends GameView {
 	}
 					
 	//@Override
+	/**draw all of our menu components*/
 	public void Draw(Canvas canvas){
 		clear(canvas);
 		
@@ -92,6 +102,9 @@ public class ScoreView extends GameView {
 		display(canvas);
 	}
 	
+	/** test all of our buttons and pop states if necessary
+	 * 
+	 */
 	public boolean onTouchEvent(MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_POINTER_UP) {
 			Log.d(mName, "Pointer Up at (" + event.getX() + ", " + event.getY() + ")");
