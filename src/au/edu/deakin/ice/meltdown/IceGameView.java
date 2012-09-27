@@ -77,6 +77,10 @@ public class IceGameView extends GameView {
 	/** sound handles for playing sounds*/
 	private int skisound, skiducksound, skijump; //, skijump2;
 	
+	/** constructor
+	 * 
+	 * @param context App context for loading resources
+	 */
 	public IceGameView(Context context) {
 		super(context);
 		Log.d(mName, "Creating gameview");
@@ -89,6 +93,9 @@ public class IceGameView extends GameView {
 	
 	
 	//@Override
+	/** Init the game values and set everything to it's starting position
+	 * 
+	 */
 	public void Init() {
 		mHorizontal = mScreenSize.y - 50;
 		//this one is for gameplay logic
@@ -123,6 +130,9 @@ public class IceGameView extends GameView {
 	}
 	
 	//@Override
+	/** update everything's movement and check for collisions and win conditions
+	 * 
+	 */
 	public void Update(){
 		//Log.d(mName, "Starting Update step");
 		//check life
@@ -211,6 +221,9 @@ public class IceGameView extends GameView {
 		CheckCollisions();
 	}
 	
+	/** check the snowman against all of the threats
+	 * 
+	 */
 	private void CheckCollisions(){
 		Rect r;
 		
@@ -243,6 +256,9 @@ public class IceGameView extends GameView {
 	}
 	
 	//@Override
+	/** draw all interaface elements threats world objects(ground) and the snowman
+	 * @param canvas the canvas to draw to.
+	 */
 	public void Draw(Canvas canvas){
 		//Log.d(mName, "Starting Draw step");
 		// clear, go through each entity and call draw, then call display
@@ -268,6 +284,9 @@ public class IceGameView extends GameView {
 	}
 	
 	//@Override
+	/** handle user interaction
+	 * 
+	 */
 	public boolean onTouchEvent(MotionEvent event) {
 		//mTouchCount = 0;
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
@@ -325,6 +344,9 @@ public class IceGameView extends GameView {
 		return true;
 	}
 	
+	/** pass the current score back to MainActivity
+	 * 
+	 */
 	private void saveScore(){
 		MainActivity main = (MainActivity) mParent;
 		int[] scores = main.getScores();

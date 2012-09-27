@@ -67,7 +67,7 @@ public class GameObject{
 	}
 
 	/** Get the bitmap the gameObject uses.
-	 *  @returns The bitmap being used by the GameObject */
+	 *  @return The bitmap being used by the GameObject */
 	public Bitmap getBitmap() {
 		return mB;
 	}
