@@ -26,7 +26,7 @@ public class GameThread extends Thread {
 	
 	/** Constructor.
 	 *  @param s The surface holder to use for this thread
-	 *  @parem v The GameView that this thread will update and draw */
+	 *  @param v The GameView that this thread will update and draw */
 	public GameThread(SurfaceHolder s, GameView v){
 		super();
 		mSurfaceHolder = s;
