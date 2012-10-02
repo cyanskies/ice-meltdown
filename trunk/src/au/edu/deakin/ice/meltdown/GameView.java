@@ -47,8 +47,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		if(mSound != null)
 			mSound.kill();
 		
-		mSound = null;
-		
 		while(mThread.isAlive())
 		try {
 			mThread.join();
