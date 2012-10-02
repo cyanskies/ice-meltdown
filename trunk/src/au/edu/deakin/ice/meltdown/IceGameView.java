@@ -16,7 +16,11 @@ import au.edu.deakin.ice.meltdown.entities.Threat;
 import au.edu.deakin.ice.meltdown.entities.ThreatGenerator;
 
 public class IceGameView extends GameView {
-
+	
+	/** The previous time measured by System.currentTimeMillis() */
+	private long previousTime;
+	/** The change in time evaluated to approxmately 1 if the game is running at the full frame rate */
+	private float deltat;
 	/** class name for logging*/
 	private static final String mName = IceGameView.class.getSimpleName();
 	/** snowman object, represents player character handles player state and drawing of the player character*/
@@ -88,6 +92,7 @@ public class IceGameView extends GameView {
 		skisound = mSound.load(R.raw.skisound);
 		skiducksound = mSound.load(R.raw.skisound2);
 		skijump = mSound.load(R.raw.skijump);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -97,6 +102,9 @@ public class IceGameView extends GameView {
 	 * 
 	 */
 	public void Init() {
+		// Set the previous time variable's initial amount.
+		previousTime = System.currentTimeMillis();
+		
 		mHorizontal = mScreenSize.y - 50;
 		//this one is for gameplay logic
 		mGround.setPosition(0.f, mHorizontal);
@@ -134,6 +142,9 @@ public class IceGameView extends GameView {
 	 * 
 	 */
 	public void Update(){
+		// Get the delta T in terms of frames per second, so it will ideally be close to 1 every frame for consistency
+		deltat = (System.currentTimeMillis() - previousTime) / (1000 / 30);
+		previousTime = System.currentTimeMillis();
 		//Log.d(mName, "Starting Update step");
 		//check life
 		if(live <= 0){
@@ -147,8 +158,8 @@ public class IceGameView extends GameView {
 		}
 		
 		//move ground
-		mGround2.move(-mGroundMoveSpeed, 0);
-		mGround3.move(-mGroundMoveSpeed, 0);
+		mGround2.move(-mGroundMoveSpeed, 0, deltat);
+		mGround3.move(-mGroundMoveSpeed, 0, deltat);
 		
 		float g1 = mGround2.getBounds().position.x + mGround2.getBounds().size.x;
 		float g2 = mGround3.getBounds().position.x + mGround3.getBounds().size.x;
@@ -176,8 +187,8 @@ public class IceGameView extends GameView {
 		//remove dead threats
 		ArrayList<Integer> removeList = new ArrayList<Integer>();
 		
-		for(GameObject o : mThreatList){
-			o.update();
+		for(Threat o : mThreatList){
+			o.update(deltat);
 			
 			if(o.getBounds().position.x + o.getBounds().size.x < 0)
 				removeList.add(mThreatList.indexOf(o));
@@ -193,7 +204,7 @@ public class IceGameView extends GameView {
 		//update UI
 		mLive.setText("Life: " + live);
 		mScore.setText("Score: " + score);
-		mSnowman.update();
+		mSnowman.update(deltat);
 		
 		
 		//do move action if snowman is moving
@@ -210,11 +221,17 @@ public class IceGameView extends GameView {
 			float current = mSnowman.getBounds().position.x;
 			if(mSnowman.isMoving_Right()){
 				if(current > target)
+				{
 					mSnowman.setState(Snowman.IDLE);
+					mSnowman.setPosition(target, mHorizontal - mSnowman.getBounds().size.y);
+				}
 			}
 			else{
 				if(current < target)
+				{
 					mSnowman.setState(Snowman.IDLE);
+					mSnowman.setPosition(target, mHorizontal - mSnowman.getBounds().size.y);
+				}
 			}
 		}
 		
@@ -231,7 +248,7 @@ public class IceGameView extends GameView {
 		if(mSnowman.getBounds().intersects(mGround.getBounds())){
 			r = mSnowman.getBounds().GetOverlapRect(mGround.getBounds());
 			
-			mSnowman.move(0,  -r.size.y);
+			mSnowman.move(0,  -r.size.y, 1);
 			
 			//if we've hit the ground then we should return to the idle state
 			if(mSnowman.getState() == Snowman.FALLING)
@@ -256,7 +273,7 @@ public class IceGameView extends GameView {
 	}
 	
 	//@Override
-	/** draw all interaface elements threats world objects(ground) and the snowman
+	/** draw all interface elements threats world objects(ground) and the snowman
 	 * @param canvas the canvas to draw to.
 	 */
 	public void Draw(Canvas canvas){
@@ -298,7 +315,7 @@ public class IceGameView extends GameView {
 				mSound.pause(skisound);
 				mSound.resume(skiducksound);
 				mSnowman.setState(Snowman.DUCK);
-				mSnowman.move(0, ySize - mSnowman.getBounds().size.y);
+				mSnowman.move(0, ySize - mSnowman.getBounds().size.y, deltat);
 			}
 			
 				//mSnowman.Jump(20);

@@ -7,11 +7,11 @@ import au.edu.deakin.ice.meltdown.R;
 
 public class Snowman extends GameObject {
 
-	/** THe stength of gravity on the snowman*/
+	/** THe strength of gravity on the snowman*/
 	private static final float GRAVITY = 9.8f;
 	/** a counter to test how long to jump for*/
-	private int mJumpTime = 0;
-	/** the upword strength of the jump*/
+	private float mJumpTime = 0;
+	/** the upward strength of the jump*/
 	private static final int JUMP_POWER = 15;  // must be larger than GRAVITY
 	
 	/** a bitmap for when the snowman is idle*/
@@ -31,7 +31,7 @@ public class Snowman extends GameObject {
 	public static final int DUCK = 3;
 	public static final int MOVING = 4;
 	
-	/** record the moving diretion, true for right, false for left*/
+	/** record the moving direction, true for right, false for left*/
 	private boolean mMoving_Right;
 	/** the horizontal move speed of the snowman*/
 	private float MOVE_SPEED = 25;
@@ -71,17 +71,18 @@ public class Snowman extends GameObject {
 		mB = mIdle;
 	}
 
-	/** Update step for the snowman, calculate movement for this tick */
-	public void update() {
-		move(0, GRAVITY);
+	/** Update step for the snowman, calculate movement for this tick
+	 * @param deltat The amount of time that has passed between each update */
+	public void update(float deltat) {
+		move(0, GRAVITY, deltat);
 		
 		if(mState == JUMP)
 		{
-			if(mJumpTime == 0)
+			if(mJumpTime <= 0)
 				mState = FALLING;
 			else {
-				--mJumpTime;
-				move(0, -JUMP_POWER);
+				mJumpTime -= deltat;
+				move(0.0f, -JUMP_POWER, deltat);
 			}
 		}
 		else if(mState == FALLING){
@@ -95,9 +96,9 @@ public class Snowman extends GameObject {
 		}
 		else if(mState == MOVING){
 			if(mMoving_Right)
-				move(MOVE_SPEED, 0);
+				move(MOVE_SPEED, 0.0f, deltat);
 			else
-				move(-MOVE_SPEED, 0);
+				move(-MOVE_SPEED, 0.0f, deltat);
 		}
 	}
 		
@@ -110,7 +111,7 @@ public class Snowman extends GameObject {
 	
 	/** start a jump
 	 * 
-	 * @param time The time the upword portion of hte jump should last for
+	 * @param time The time the upward portion of the jump should last for
 	 */
 	public void Jump(int time){
 		mState = JUMP;
@@ -126,7 +127,7 @@ public class Snowman extends GameObject {
 		return mMoving_Right;
 	}
 	
-	/** set the snowmans move dir
+	/** Set the snowman's move direction
 	 * 
 	 * @param mMoving_Right true for right, false for left.
 	 */

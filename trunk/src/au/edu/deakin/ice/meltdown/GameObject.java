@@ -90,15 +90,16 @@ public class GameObject{
 	
 	/** Moves the object by the amount passed as parameters.
 	 *  @param x The delta to move horizontally 
-	 *  @param y The delta to move vertically */
-	public void move(float x, float y){
-		mM.postTranslate(x, y);
+	 *  @param y The delta to move vertically
+	 *  @param deltat The amount of time that has passed between each update */
+	public void move(float x, float y, float deltat){
+		mM.postTranslate(x * deltat, y * deltat);
 	}
 	
 	/** Moves the object by the amount passed as parameter.
 	 *  @param v The delta vector to move by */
-	public final void move(Vector2 v){
-		move(v.x,  v.y);
+	public final void move(Vector2 v, float deltat){
+		move(v.x,  v.y, deltat);
 	}
 	
 	/** Sets the objects translation to the values passed as parameters.
