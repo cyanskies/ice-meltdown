@@ -49,8 +49,8 @@ public class Rect {
 			return true;
 	}
 	
-	/** Tests to ditermine if the provided rect intersects the bounds of the rect.
-	 *  If so, it returns a rec which represents the area the two rects overlap.
+	/** Tests to determine if the provided rect intersects the bounds of the rect.
+	 *  If so, it returns a rect which represents the area the two rects overlap.
 	 * @param r The rect to test against
 	 * @return The overlap area */
 	public Rect GetOverlapRect(Rect r){

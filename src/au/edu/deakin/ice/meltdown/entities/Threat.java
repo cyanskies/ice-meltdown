@@ -32,9 +32,10 @@ public class Threat extends GameObject {
 		this.mHit = true;
 	}
 	
-	/** Move to the left by 5 once every update*/
-	public void update() {
-		move(-5, 0);
+	/** Move to the left by 5 once every update
+	 * @param deltat The amount of time that has passed between each update */
+	public void update(float deltat) {
+		move(-5, 0, deltat);
 	}
 
 }

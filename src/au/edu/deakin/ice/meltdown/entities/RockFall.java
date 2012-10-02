@@ -22,8 +22,8 @@ public class RockFall extends Threat {
 	}
 	
 	/** Move the rockfall down at a rate of mFallSpeed per update*/
-	public void update() {
-		move(0, mFallSpeed);
+	public void update(float deltat) {
+		move(0, mFallSpeed, deltat);
 	}
 
 }
