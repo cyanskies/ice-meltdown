@@ -147,7 +147,7 @@ public class IceGameView extends GameView {
 	 */
 	public void Update(){
 		// Get the delta T in terms of frames per second, so it will ideally be close to 1 every frame for consistency
-		deltat = (System.currentTimeMillis() - previousTime) / (1000 / 30);
+		deltat = (System.currentTimeMillis() - previousTime) / (1000 / 20);
 		previousTime = System.currentTimeMillis();
 		//Log.d(mName, "Starting Update step");
 		//check life
@@ -227,14 +227,14 @@ public class IceGameView extends GameView {
 				if(current > target)
 				{
 					mSnowman.setState(Snowman.IDLE);
-					mSnowman.setPosition(target, mHorizontal - mSnowman.getBounds().size.y);
+					//mSnowman.setPosition(target, mHorizontal - mSnowman.getBounds().size.y);
 				}
 			}
 			else{
 				if(current < target)
 				{
 					mSnowman.setState(Snowman.IDLE);
-					mSnowman.setPosition(target, mHorizontal - mSnowman.getBounds().size.y);
+					//mSnowman.setPosition(target, mHorizontal - mSnowman.getBounds().size.y);
 				}
 			}
 		}
@@ -271,7 +271,6 @@ public class IceGameView extends GameView {
 				mDamageProtection = true;
 				mDamageCount = 0;
 				//take away health, 
-				//destroy colliding object
 			}
 		}
 	}
@@ -301,8 +300,6 @@ public class IceGameView extends GameView {
 			draw(o);
 		}
 		
-		
-		
 		display(canvas);
 	}
 	
@@ -321,7 +318,7 @@ public class IceGameView extends GameView {
 				mSound.pause(skisound);
 				mSound.resume(skiducksound);
 				mSnowman.setState(Snowman.DUCK);
-				mSnowman.move(0, ySize - mSnowman.getBounds().size.y, deltat);
+				mSnowman.move(0, ySize - mSnowman.getBounds().size.y, 1);
 			}
 			
 				//mSnowman.Jump(20);
