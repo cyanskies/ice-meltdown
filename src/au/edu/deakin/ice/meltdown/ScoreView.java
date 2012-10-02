@@ -22,6 +22,9 @@ public class ScoreView extends GameView {
 	/** text objects for displaying titles for scores and dates*/
 	private TextObject mScoreTitle, mDateTitle;
 	
+	/**click sound handle for button presses*/
+	private int buttonClick;
+	
 	/**constructor
 	 * 
 	 * @param context app context
@@ -29,6 +32,8 @@ public class ScoreView extends GameView {
 	public ScoreView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
+		
+		buttonClick = mSound.load(R.raw.clicksound);
 	}
 
 	//@Override
@@ -111,13 +116,16 @@ public class ScoreView extends GameView {
 			Vector2 delta = new Vector2(event.getX(), event.getY());
 			MainActivity main = (MainActivity) mParent;
 			if(mPlay.getBounds().contains(delta)){
+				mSound.play(buttonClick, false);
 				changeView(new IceGameView(getContext()));
-			}
-			else if(mExit.getBounds().contains(delta)){
-				main.finish();
 				
 			}
+			else if(mExit.getBounds().contains(delta)){
+				mSound.play(buttonClick, false);
+				main.finish();
+			}
 			else if(mSoundOn.getBounds().contains(delta)){
+				mSound.play(buttonClick, false);
 				if(sound)
 					SoundManager.disable();
 				else

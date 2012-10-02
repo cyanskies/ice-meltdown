@@ -128,9 +128,12 @@ public class SoundManager {
 	}
 	/** Cleanup and stop any sounds */
 	public void kill(){
-		clear();
-		
-		mSounds.release();
+		if(mSounds != null){
+			clear();
+			
+			mSounds.release();
+			mSounds = null;
+		}
 		
 	}
 }

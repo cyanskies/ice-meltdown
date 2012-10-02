@@ -32,9 +32,9 @@ public class IceGameView extends GameView {
 			mGround3 = new GameObject(R.drawable.ground2);
 	
 	/** text object for displaying life*/
-	private final TextObject mLive = new TextObject("", color.primary_text_light);
+	private final TextObject mLive = new TextObject("empty", color.primary_text_light);
 	/** text object for displaying score*/
-	private final TextObject mScore = new TextObject("", color.primary_text_light);
+	private final TextObject mScore = new TextObject("empty", color.primary_text_light);
 	/** Sprite to represent the snowball*/
 	private final GameObject mSnowBall = new GameObject(R.drawable.snowball);
 	
@@ -79,7 +79,7 @@ public class IceGameView extends GameView {
 	private int Vert_Target = 2; //these are for moving forwards and backwards
 	
 	/** sound handles for playing sounds*/
-	private int skisound, skiducksound, skijump; //, skijump2;
+	private int skisound, skiducksound, skijump, music; //, skijump2;
 	
 	/** constructor
 	 * 
@@ -92,6 +92,7 @@ public class IceGameView extends GameView {
 		skisound = mSound.load(R.raw.skisound);
 		skiducksound = mSound.load(R.raw.skisound2);
 		skijump = mSound.load(R.raw.skijump);
+		music = mSound.load(R.raw.music);
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -135,6 +136,9 @@ public class IceGameView extends GameView {
 		
 		//pause the duck ski sound, so we can resume it later
 		mSound.pause(skiducksound);
+		
+		//and start the music sound on a loop
+		mSound.play(music,  true);
 	}
 	
 	//@Override
@@ -290,12 +294,14 @@ public class IceGameView extends GameView {
 		draw(mScore);
 		draw(mSnowBall);
 		
+		draw(mGround2);
+		draw(mGround3);
+		
 		for(Threat o : mThreatList){
 			draw(o);
 		}
 		
-		draw(mGround2);
-		draw(mGround3);
+		
 		
 		display(canvas);
 	}
