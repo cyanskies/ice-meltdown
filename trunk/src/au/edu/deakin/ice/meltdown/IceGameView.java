@@ -19,7 +19,7 @@ public class IceGameView extends GameView {
 	
 	/** The previous time measured by System.currentTimeMillis() */
 	private long previousTime;
-	/** The change in time evaluated to approxmately 1 if the game is running at the full frame rate */
+	/** The change in time evaluated to approximately 1 if the game is running at the full frame rate */
 	private float deltat;
 	/** class name for logging*/
 	private static final String mName = IceGameView.class.getSimpleName();
@@ -147,7 +147,7 @@ public class IceGameView extends GameView {
 	 */
 	public void Update(){
 		// Get the delta T in terms of frames per second, so it will ideally be close to 1 every frame for consistency
-		deltat = (System.currentTimeMillis() - previousTime) / (1000 / 20);
+		deltat = (float)(System.currentTimeMillis() - previousTime) / ((float)1000 / 20);
 		previousTime = System.currentTimeMillis();
 		//Log.d(mName, "Starting Update step");
 		//check life
