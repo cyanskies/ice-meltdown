@@ -83,6 +83,7 @@ public class MainActivity extends Activity{
 	 *  @param view The new GameView to run
 	 *  */
     public void changeView(GameView view){
+    		Log.d(mName, "Changing view");
     		view.setParent(this);
     		if(mCurrent != null) mCurrent.kill();
     		

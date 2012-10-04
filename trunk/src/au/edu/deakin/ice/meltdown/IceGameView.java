@@ -79,7 +79,7 @@ public class IceGameView extends GameView {
 	private int Vert_Target = 2; //these are for moving forwards and backwards
 	
 	/** sound handles for playing sounds*/
-	private int skisound, skiducksound, skijump, music; //, skijump2;
+	private int skisound, skiducksound, skijump;//, music; //, skijump2;
 	
 	/** constructor
 	 * 
@@ -92,7 +92,9 @@ public class IceGameView extends GameView {
 		skisound = mSound.load(R.raw.skisound);
 		skiducksound = mSound.load(R.raw.skisound2);
 		skijump = mSound.load(R.raw.skijump);
-		music = mSound.load(R.raw.music);
+		
+		//soundpool is unable to play such a large file :(
+		//music = mSound.load(R.raw.music);
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -107,12 +109,15 @@ public class IceGameView extends GameView {
 		previousTime = System.currentTimeMillis();
 		
 		mHorizontal = mScreenSize.y - 50;
-		//this one is for gameplay logic
+		//this one is for gameplay and collision logic
 		mGround.setPosition(0.f, mHorizontal);
 		
 		//these two are for visuals
+		//these are animated and wrapped around the give the illusion of infinate ground
 		mGround2.setPosition(0.f, mHorizontal);
 		mGround3.setPosition(mGround2.getBounds().position.x + mGround2.getBounds().size.x, mHorizontal);
+		
+		//place snowball on left side of the screen
 		mSnowBall.setPosition(0.f, mHorizontal - mSnowBall.getBounds().size.y);
 		
 		Vert2 = mScreenSize.x / 2;
@@ -128,6 +133,7 @@ public class IceGameView extends GameView {
 		//I've made the flying threat high based on the size of the player sprite, if we choose the change the player sprite size(probably to make him taller
 		// since he's a little short) these values should still work.
 		mGen = new ThreatGenerator(mScreenSize.x, mGround.getBounds().position.y, mGround.getBounds().position.y - mSnowman.getBounds().size.y + (mSnowman.getBounds().size.y / 6));
+		
 		//not currently used for anything
 		//skijump2 = mSound.load(R.raw.skijump2);
 		
@@ -138,7 +144,7 @@ public class IceGameView extends GameView {
 		mSound.pause(skiducksound);
 		
 		//and start the music sound on a loop
-		mSound.play(music,  true);
+		//mSound.play(music,  true);
 	}
 	
 	//@Override
@@ -154,6 +160,7 @@ public class IceGameView extends GameView {
 		if(live <= 0){
 			saveScore();
 			
+			Log.d(mName, "Player lost");
 			mParent.runOnUiThread(new Runnable() {
 				public void run() {
 					changeView(new ScoreView(mParent.getApplicationContext()));

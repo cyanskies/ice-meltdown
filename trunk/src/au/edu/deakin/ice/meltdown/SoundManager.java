@@ -103,12 +103,13 @@ public class SoundManager {
 	/** Pause a sound 
 	 * @param sound the sound to pause*/
 	public void pause(int sound){
-		mSounds.pause(sound);
+		if(soundsMap.containsKey(sound))
+			mSounds.pause(sound);
 	}
 	/** Resume a sound 
 	 * @param sound the sound to resume*/
 	public void resume(int sound){
-		if(enabled)
+		if(enabled && soundsMap.containsKey(sound))
 			mSounds.resume(sound);
 	}
 	/** stop playing a sound 
