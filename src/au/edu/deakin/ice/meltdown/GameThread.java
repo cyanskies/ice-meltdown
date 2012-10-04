@@ -23,7 +23,7 @@ public class GameThread extends Thread {
 	
 	/** The frame time to use to maintain the correct FPS */
 	private static final int FRAME_TIME = 1000 / MAX_FPS;
-	
+		
 	/** Constructor.
 	 *  @param s The surface holder to use for this thread
 	 *  @param v The GameView that this thread will update and draw */
@@ -45,16 +45,17 @@ public class GameThread extends Thread {
 	 * and for calling update and draw at regular intervals.*/
 	 public void run() {
 		 Canvas canvas;
-		
+		 
+		 Log.d(mName, "Thread started")	;
 		 
 		 long frameStart, frameDelta;
 		 int sleep;
 		 
-		 while (mGame.ScreenInit() == false) {
-			 try {
-				 sleep(10);
-			 } catch (InterruptedException e) {}
-		 }
+		//while (mGame.ScreenInit() == false) {
+			//try {
+				// sleep(10);
+			 //} catch (InterruptedException e) {}
+		// }
 		 
 		 mGame.Init();
 		 
@@ -72,7 +73,8 @@ public class GameThread extends Thread {
 		        	 mGame.Update();
 		         	 // render state to the screen
 		         	 // draws the canvas on the panel
-		         	 mGame.Draw(canvas);
+		        	 if(canvas != null)
+		        		 mGame.Draw(canvas);
 		         	 
 		         	 frameDelta = System.currentTimeMillis() - frameStart;
 		         	 sleep = (int) (FRAME_TIME - frameDelta);
@@ -98,6 +100,8 @@ public class GameThread extends Thread {
 		         }
 		     }   // end finally
 		 } //while
+		 
+		 Log.d(mName, "Thread expired");
 	 }//run()
 	 
 }

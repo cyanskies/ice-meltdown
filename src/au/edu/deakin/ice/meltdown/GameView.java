@@ -131,20 +131,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	
 	/** Draws each object on the renderqueue to the Canvas provided.
 	 * @param canvas The canvas to draw each object to */
-	public final void display(Canvas canvas){
-				
-		while(!mTextQueue.isEmpty()){
-		TextData d = mTextQueue.peek();
-		mPaint.setColor(d.colour);
-		canvas.drawText(d.text, d.x, d.y , mPaint);
-		mTextQueue.remove();
-		}
+	public final void display(final Canvas canvas){
 		
+		while(!mTextQueue.isEmpty()){
+			TextData d = mTextQueue.peek();
+			mPaint.setColor(d.colour);
+			canvas.drawText(d.text, d.x, d.y , mPaint);
+			mTextQueue.remove();
+		}
+					
 		while(!mDrawQueue.isEmpty()){
 			DrawData d = mDrawQueue.peek();
 			canvas.drawBitmap(d.b, d.m, null);
 			mDrawQueue.remove();
-		}		
+		}				
 	}
 	
 	/** Notify GameView that the surface has changed.
@@ -158,6 +158,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		Log.d(mName, "Surface Cha-Cha-Changed!!!");
 		mScreenSize = new Vector2(width, height);
 		
+		mThread.setRunning(true);
+		if(!mThread.isAlive())
+			mThread.start();
 		mScreenInit = true;
 	}
 	
@@ -189,9 +192,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	/** Called when the surface has be created.
 	 * Starts the game threads main loop */
 	public final void ViewInit() {
-		mThread.setRunning(true);
-		if(!mThread.isAlive())
-			mThread.start();
+		
+		Log.d(mName, "Vew Initating");
+		
 	}
 	
 	/** Init exists to allow derived classes to set up their game data. */
@@ -211,7 +214,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public final void changeView(GameView view){
 		MainActivity main = (MainActivity) mParent;
 		
-		kill();
+		//kill();
 		main.changeView(view);
     }
 }

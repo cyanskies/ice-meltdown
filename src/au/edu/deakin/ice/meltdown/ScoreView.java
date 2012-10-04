@@ -32,13 +32,15 @@ public class ScoreView extends GameView {
 	public ScoreView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		
+		Log.d(mName, "ScoreView Created");
 		buttonClick = mSound.load(R.raw.clicksound);
 	}
 
 	//@Override
 	/** Init sets up all the object values*/
 	public void Init() {
+		Log.d(mName, "ScoreView Initiated");
+		
 		mPlay = new GameObject(R.drawable.button_play);
 		mExit = new GameObject(R.drawable.button_exit);	
 		
